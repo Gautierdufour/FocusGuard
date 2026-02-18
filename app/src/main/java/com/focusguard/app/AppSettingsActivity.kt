@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import com.focusguard.app.ui.theme.FocusGuardTheme
 import com.focusguard.app.components.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -94,14 +95,14 @@ fun DarkAppSettingsScreen(
     mode: String = "default"
 ) {
     val modeTitle = when (mode) {
-        "focus" -> "Mode Focus"
-        "location" -> "Mode Géographique"
-        else -> "Sélection des apps"
+        "focus" -> stringResource(R.string.focus_mode)
+        "location" -> stringResource(R.string.location_mode)
+        else -> stringResource(R.string.app_selection)
     }
 
     val modeDescription = when (mode) {
-        "focus" -> "Apps bloquées en mode focus"
-        "location" -> "Apps bloquées dans les zones"
+        "focus" -> stringResource(R.string.apps_blocked_focus)
+        "location" -> stringResource(R.string.apps_blocked_zones)
         else -> null
     }
     val context = androidx.compose.ui.platform.LocalContext.current

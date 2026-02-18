@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 
 @Composable
 fun DarkStatusCard(appCount: Int) {
@@ -30,13 +32,13 @@ fun DarkStatusCard(appCount: Int) {
 
             Column {
                 Text(
-                    text = "Protection active",
+                    text = stringResource(R.string.protection_active),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = AppColors.Success
                 )
                 Text(
-                    text = "$appCount app${if (appCount > 1) "s" else ""} surveillée${if (appCount > 1) "s" else ""}",
+                    text = "$appCount ${if (appCount > 1) stringResource(R.string.apps_monitored) else stringResource(R.string.app_monitored)}",
                     fontSize = 14.sp,
                     color = AppColors.OnSurfaceVariant
                 )

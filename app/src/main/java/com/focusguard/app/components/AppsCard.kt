@@ -15,7 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 
 @Composable
 fun DarkAppsCard(
@@ -33,7 +35,7 @@ fun DarkAppsCard(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = "Applications surveillées",
+                text = stringResource(R.string.monitored_applications),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = AppColors.OnSurface
@@ -65,13 +67,13 @@ fun DarkAppsCard(
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "Aucune app sélectionnée",
+                        text = stringResource(R.string.no_app_selected),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = AppColors.OnSurface
                     )
                     Text(
-                        text = "Commencez par sélectionner des apps",
+                        text = stringResource(R.string.start_by_selecting_apps),
                         fontSize = 13.sp,
                         color = AppColors.OnSurfaceVariant,
                         textAlign = TextAlign.Center
@@ -107,7 +109,7 @@ fun DarkAppsCard(
                             color = AppColors.Success
                         )
                         Text(
-                            text = "app${if (selectedApps.size > 1) "s" else ""} sous surveillance",
+                            text = stringResource(R.string.apps_under_monitoring),
                             fontSize = 13.sp,
                             color = AppColors.OnSurfaceVariant
                         )
@@ -130,7 +132,7 @@ fun DarkAppsCard(
             ) {
                 Icon(Icons.Filled.Info, null, modifier = Modifier.size(18.dp), tint = AppColors.Primary)
                 Spacer(Modifier.width(6.dp))
-                Text("Stats", color = AppColors.Primary)
+                Text(stringResource(R.string.stats), color = AppColors.Primary)
             }
 
             GlassButton(
@@ -141,7 +143,7 @@ fun DarkAppsCard(
             ) {
                 Icon(Icons.Filled.Settings, null, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(6.dp))
-                Text("Gérer")
+                Text(stringResource(R.string.manage))
             }
         }
     }

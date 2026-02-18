@@ -12,7 +12,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 
 @Composable
 fun DarkHeroCard() {
@@ -38,7 +40,7 @@ fun DarkHeroCard() {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    text = "Reprenez le contrôle",
+                    text = stringResource(R.string.take_back_control),
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = AppColors.OnSurface,
@@ -48,7 +50,7 @@ fun DarkHeroCard() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Transformez vos distractions en opportunités",
+                    text = stringResource(R.string.turn_distractions_into_opportunities),
                     fontSize = 14.sp,
                     color = AppColors.OnSurfaceVariant,
                     textAlign = TextAlign.Center,

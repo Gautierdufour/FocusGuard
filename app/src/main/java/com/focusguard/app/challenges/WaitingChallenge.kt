@@ -8,10 +8,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 import com.focusguard.app.components.GlassButton
 import kotlinx.coroutines.delay
 
@@ -45,7 +47,7 @@ fun RedesignedWaitingChallenge(
             modifier = Modifier.padding(32.dp)
         ) {
             Text(
-                text = "Temps de réflexion",
+                text = stringResource(R.string.reflection_time),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = AppColors.OnSurface
@@ -83,7 +85,7 @@ fun RedesignedWaitingChallenge(
                     Icon(Icons.Filled.Check, null)
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        "Continuer",
+                        stringResource(R.string.continue_btn),
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -100,14 +102,14 @@ fun RedesignedWaitingChallenge(
                     ) {
                         Icon(Icons.Filled.Home, null, modifier = Modifier.size(18.dp), tint = AppColors.Error)
                         Spacer(Modifier.width(8.dp))
-                        Text("Retour à l'accueil", color = AppColors.Error)
+                        Text(stringResource(R.string.back_to_home), color = AppColors.Error)
                     }
 
                     TextButton(
                         onClick = onBack,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("\u2190 Changer d'activité", color = AppColors.OnSurfaceVariant)
+                        Text(stringResource(R.string.change_activity), color = AppColors.OnSurfaceVariant)
                     }
                 }
             }

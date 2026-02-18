@@ -15,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 import com.focusguard.app.HybridPushupDetector
 import com.focusguard.app.ProximityPushupDetector
 import com.focusguard.app.PushupDetector
@@ -159,7 +161,7 @@ fun UniversalPushupChallenge(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Défi sportif",
+            text = stringResource(R.string.sports_challenge),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = AppColors.OnSurface
@@ -248,7 +250,7 @@ fun UniversalPushupChallenge(
                 if (method == PushupMethod.HYBRID && !isComplete && confidence > 0) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Confiance: $confidence%",
+                        text = "${stringResource(R.string.confidence_label)} $confidence%",
                         fontSize = 12.sp,
                         color = when {
                             confidence >= 70 -> AppColors.Success
@@ -349,7 +351,7 @@ fun UniversalPushupChallenge(
 
         if (!isComplete) {
             TextButton(onClick = onBack) {
-                Text("\u2190 Méthode", color = AppColors.OnSurfaceVariant, fontSize = 13.sp)
+                Text("\u2190 ${stringResource(R.string.method_label)}", color = AppColors.OnSurfaceVariant, fontSize = 13.sp)
             }
         }
     }
@@ -479,13 +481,13 @@ fun SuccessAnimation(count: Int) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Excellent travail !",
+            text = stringResource(R.string.excellent_work),
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = AppColors.Success
         )
         Text(
-            text = "$count pompes complétées",
+            text = "$count ${stringResource(R.string.pushups_completed)}",
             fontSize = 14.sp,
             color = AppColors.OnSurfaceVariant,
             textAlign = TextAlign.Center

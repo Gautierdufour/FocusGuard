@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import com.focusguard.app.ui.theme.FocusGuardTheme
 import com.focusguard.app.components.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,7 +64,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Paramètres",
+                        text = stringResource(R.string.settings),
                         fontWeight = FontWeight.Bold,
                         color = AppColors.OnSurface
                     )
@@ -72,7 +73,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Retour",
+                            contentDescription = stringResource(R.string.back),
                             tint = AppColors.Primary
                         )
                     }
@@ -81,7 +82,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                     IconButton(onClick = { showResetDialog = true }) {
                         Icon(
                             imageVector = Icons.Filled.Refresh,
-                            contentDescription = "Réinitialiser",
+                            contentDescription = stringResource(R.string.reset),
                             tint = AppColors.Warning
                         )
                     }
@@ -106,9 +107,9 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
 
             item {
                 DarkSettingsCard(
-                    title = "Durée d'accès après défi",
+                    title = stringResource(R.string.access_duration_after_challenge),
                     icon = Icons.Filled.Star,
-                    description = "Temps d'accès une fois le défi complété",
+                    description = stringResource(R.string.access_time_once_challenge_completed),
                     accentColor = AppColors.Primary
                 ) {
                     DarkPresetSelector(
@@ -127,14 +128,14 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
 
             item {
                 DarkSettingsCard(
-                    title = "Configuration des défis",
+                    title = stringResource(R.string.challenge_configuration),
                     icon = Icons.Filled.Settings,
-                    description = "Personnalisez la difficulté",
+                    description = stringResource(R.string.customize_difficulty),
                     accentColor = AppColors.Secondary
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
                         DarkPresetSelector(
-                            label = "Pompes requises",
+                            label = stringResource(R.string.pushups_required),
                             value = pushupCount,
                             options = PresetDurations.PUSHUP_COUNTS,
                             formatValue = { "$it pompes" },
@@ -146,7 +147,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         )
 
                         DarkPresetSelector(
-                            label = "Durée d'attente",
+                            label = stringResource(R.string.waiting_duration),
                             value = waitingDuration,
                             options = PresetDurations.WAITING_DURATIONS,
                             formatValue = { PresetDurations.formatDuration(it) },
@@ -158,7 +159,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         )
 
                         DarkPresetSelector(
-                            label = "Durée de respiration",
+                            label = stringResource(R.string.breathing_duration),
                             value = breathingDuration,
                             options = PresetDurations.BREATHING_DURATIONS,
                             formatValue = { PresetDurations.formatDuration(it) },
@@ -174,14 +175,14 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
 
             item {
                 DarkSettingsCard(
-                    title = "Défis Cognitifs",
+                    title = stringResource(R.string.cognitive_challenges),
                     icon = Icons.Filled.Star,
-                    description = "Configurez les défis mentaux",
+                    description = stringResource(R.string.configure_mental_challenges),
                     accentColor = AppColors.Info
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
                         DarkPresetSelector(
-                            label = "Questions Quiz",
+                            label = stringResource(R.string.quiz_questions),
                             value = quizCount,
                             options = PresetDurations.QUIZ_COUNTS,
                             formatValue = { "$it question${if (it > 1) "s" else ""}" },
@@ -193,7 +194,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         )
 
                         DarkPresetSelector(
-                            label = "Calculs Mathématiques",
+                            label = stringResource(R.string.math_calculations),
                             value = mathCount,
                             options = PresetDurations.MATH_COUNTS,
                             formatValue = { "$it calcul${if (it > 1) "s" else ""}" },
@@ -205,7 +206,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         )
 
                         DarkPresetSelector(
-                            label = "Puzzles Logiques",
+                            label = stringResource(R.string.logic_puzzles),
                             value = puzzleCount,
                             options = PresetDurations.PUZZLE_COUNTS,
                             formatValue = { "$it puzzle${if (it > 1) "s" else ""}" },
@@ -217,7 +218,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         )
 
                         DarkPresetSelector(
-                            label = "Durée de Méditation",
+                            label = stringResource(R.string.meditation_duration),
                             value = meditationDuration,
                             options = PresetDurations.MEDITATION_DURATIONS,
                             formatValue = { PresetDurations.formatDuration(it) },
@@ -232,17 +233,18 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
             }
 
             item {
+                val blocksPerDayStr = stringResource(R.string.blocks_per_day)
                 DarkSettingsCard(
-                    title = "Objectifs quotidiens",
+                    title = stringResource(R.string.daily_goals),
                     icon = Icons.Filled.Favorite,
-                    description = "Définissez votre objectif journalier",
+                    description = stringResource(R.string.set_daily_goal),
                     accentColor = AppColors.Accent
                 ) {
                     DarkPresetSelector(
-                        label = "Objectif",
+                        label = stringResource(R.string.daily_goal),
                         value = dailyGoal,
                         options = PresetDurations.DAILY_GOALS,
-                        formatValue = { "$it blocages/jour" },
+                        formatValue = { "$it $blocksPerDayStr" },
                         onValueChange = {
                             dailyGoal = it
                             AppPreferences.setDailyGoal(context, it)
@@ -254,9 +256,9 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
 
             item {
                 DarkSettingsCard(
-                    title = "Notifications",
+                    title = stringResource(R.string.notifications),
                     icon = Icons.Filled.Info,
-                    description = "Rapports quotidiens et encouragements",
+                    description = stringResource(R.string.daily_reports_and_encouragement),
                     accentColor = AppColors.Info
                 ) {
                     Row(
@@ -276,7 +278,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Notifications activées",
+                            text = stringResource(R.string.notifications_enabled),
                             fontSize = 14.sp,
                             color = AppColors.OnSurface,
                             fontWeight = FontWeight.Medium
@@ -330,13 +332,13 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
             },
             title = {
                 Text(
-                    "Réinitialiser les paramètres ?",
+                    stringResource(R.string.reset_settings_title),
                     color = AppColors.OnSurface
                 )
             },
             text = {
                 Text(
-                    "Tous les paramètres seront restaurés aux valeurs par défaut. Les apps sélectionnées seront conservées.",
+                    stringResource(R.string.reset_settings_message),
                     color = AppColors.OnSurfaceVariant
                 )
             },
@@ -357,12 +359,12 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         showResetDialog = false
                     }
                 ) {
-                    Text("Réinitialiser", color = AppColors.Error)
+                    Text(stringResource(R.string.reset), color = AppColors.Error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showResetDialog = false }) {
-                    Text("Annuler", color = AppColors.OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = AppColors.OnSurfaceVariant)
                 }
             }
         )
@@ -386,7 +388,7 @@ fun DarkSettingsHeader() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Personnalisez votre expérience",
+                text = stringResource(R.string.customize_your_experience),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = AppColors.OnSurface,
@@ -394,7 +396,7 @@ fun DarkSettingsHeader() {
             )
 
             Text(
-                text = "Ajustez les paramètres selon votre niveau",
+                text = stringResource(R.string.adjust_settings_to_level),
                 fontSize = 13.sp,
                 color = AppColors.OnSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -535,7 +537,7 @@ fun DarkSummaryCard(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Configuration actuelle",
+                text = stringResource(R.string.current_configuration),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = AppColors.OnSurface
@@ -545,15 +547,15 @@ fun DarkSummaryCard(
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            DarkSummaryItem("Accès après défi", "$accessDuration min", AppColors.Primary)
+            DarkSummaryItem(stringResource(R.string.access_after_challenge), "$accessDuration min", AppColors.Primary)
             DarkSummaryItem("Pompes", "$pushupCount", AppColors.Success)
-            DarkSummaryItem("Attente", PresetDurations.formatDuration(waitingDuration), AppColors.Warning)
-            DarkSummaryItem("Respiration", PresetDurations.formatDuration(breathingDuration), AppColors.Info)
-            DarkSummaryItem("Quiz", "$quizCount question${if (quizCount > 1) "s" else ""}", AppColors.Info)
-            DarkSummaryItem("Math", "$mathCount calcul${if (mathCount > 1) "s" else ""}", AppColors.Success)
-            DarkSummaryItem("Puzzles", "$puzzleCount", AppColors.Warning)
-            DarkSummaryItem("Méditation", PresetDurations.formatDuration(meditationDuration), AppColors.Primary)
-            DarkSummaryItem("Objectif quotidien", "$dailyGoal blocages", AppColors.Accent)
+            DarkSummaryItem(stringResource(R.string.waiting), PresetDurations.formatDuration(waitingDuration), AppColors.Warning)
+            DarkSummaryItem(stringResource(R.string.breathing), PresetDurations.formatDuration(breathingDuration), AppColors.Info)
+            DarkSummaryItem(stringResource(R.string.quiz_label), "$quizCount question${if (quizCount > 1) "s" else ""}", AppColors.Info)
+            DarkSummaryItem(stringResource(R.string.math_label), "$mathCount calcul${if (mathCount > 1) "s" else ""}", AppColors.Success)
+            DarkSummaryItem(stringResource(R.string.puzzles), "$puzzleCount", AppColors.Warning)
+            DarkSummaryItem(stringResource(R.string.meditation), PresetDurations.formatDuration(meditationDuration), AppColors.Primary)
+            DarkSummaryItem(stringResource(R.string.daily_goal), "$dailyGoal blocages", AppColors.Accent)
         }
     }
 }

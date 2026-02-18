@@ -29,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.focusguard.app.R
 import com.focusguard.app.components.GlassBackground
 import com.focusguard.app.components.GlassButton
 import com.focusguard.app.components.GlassIconBadge
@@ -81,26 +83,26 @@ private fun OnboardingScreen(
     val pages = listOf(
         OnboardingPage(
             icon = Icons.Filled.Lock,
-            title = "Bienvenue sur FocusGuard",
-            description = "Reprenez le contrôle de votre temps d'écran. FocusGuard vous aide à limiter l'usage des apps addictives grâce à des défis stimulants.",
+            title = stringResource(R.string.onboarding_welcome),
+            description = stringResource(R.string.onboarding_desc1),
             color = AppColors.Primary
         ),
         OnboardingPage(
             icon = Icons.Filled.Star,
-            title = "Des défis pour se libérer",
-            description = "Quand vous ouvrez une app bloquée, complétez un défi : pompes, respiration, attente, quiz... Chaque défi renforce votre discipline.",
+            title = stringResource(R.string.onboarding_challenges),
+            description = stringResource(R.string.onboarding_desc2),
             color = AppColors.Success
         ),
         OnboardingPage(
             icon = Icons.Filled.Favorite,
-            title = "Gamification motivante",
-            description = "Gagnez de l'XP, montez en niveau, débloquez des badges et maintenez votre série quotidienne. Transformez la discipline en jeu !",
+            title = stringResource(R.string.onboarding_gamification),
+            description = stringResource(R.string.onboarding_desc3),
             color = AppColors.Warning
         ),
         OnboardingPage(
             icon = Icons.Filled.Settings,
-            title = "Permissions requises",
-            description = "FocusGuard a besoin de l'accès aux statistiques d'utilisation pour détecter quand vous ouvrez une app bloquée. Cette permission est essentielle au fonctionnement.",
+            title = stringResource(R.string.onboarding_permissions),
+            description = stringResource(R.string.onboarding_desc4),
             color = AppColors.Info
         )
     )
@@ -152,7 +154,7 @@ private fun OnboardingScreen(
                 ) {
                     Icon(Icons.Filled.Settings, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Autoriser l'accès aux stats", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.allow_stats_access), fontWeight = FontWeight.Bold)
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -161,7 +163,7 @@ private fun OnboardingScreen(
                     onClick = onComplete,
                     accentColor = AppColors.Primary
                 ) {
-                    Text("Commencer", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(stringResource(R.string.get_started), fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
                 }
@@ -177,7 +179,7 @@ private fun OnboardingScreen(
                             }
                         }
                     ) {
-                        Text("Passer", color = AppColors.OnSurfaceVariant)
+                        Text(stringResource(R.string.skip), color = AppColors.OnSurfaceVariant)
                     }
 
                     GlassButton(
@@ -189,7 +191,7 @@ private fun OnboardingScreen(
                         modifier = Modifier.width(140.dp),
                         accentColor = pages[pagerState.currentPage].color
                     ) {
-                        Text("Suivant", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.next), fontWeight = FontWeight.Bold)
                         Spacer(modifier = Modifier.width(4.dp))
                         Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, modifier = Modifier.size(18.dp))
                     }

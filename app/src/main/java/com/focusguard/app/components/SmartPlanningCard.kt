@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 
 @Composable
 fun SmartPlanningCard(
@@ -36,14 +38,14 @@ fun SmartPlanningCard(
                 Spacer(Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Planification Intelligente",
+                        text = stringResource(R.string.smart_planning),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = AppColors.OnSurface
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        text = "Horaires / Focus / Pause / Géolocalisation",
+                        text = stringResource(R.string.schedules_focus_break_location),
                         fontSize = 13.sp,
                         color = AppColors.OnSurfaceVariant,
                         lineHeight = 18.sp

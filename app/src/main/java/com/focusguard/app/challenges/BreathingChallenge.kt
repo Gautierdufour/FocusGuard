@@ -13,10 +13,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 import kotlinx.coroutines.delay
 
 @Composable
@@ -61,7 +63,7 @@ fun RedesignedBreathingChallenge(
             modifier = Modifier.padding(32.dp)
         ) {
             Text(
-                text = "Respiration",
+                text = stringResource(R.string.breathing_title),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = AppColors.OnSurface
@@ -113,7 +115,7 @@ fun RedesignedBreathingChallenge(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = if (breathingPhase) "Inspirez" else "Expirez",
+                        text = if (breathingPhase) stringResource(R.string.inhale) else stringResource(R.string.exhale),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = glowColor
@@ -124,7 +126,7 @@ fun RedesignedBreathingChallenge(
             Spacer(modifier = Modifier.height(48.dp))
 
             TextButton(onClick = onBack) {
-                Text("\u2190 Changer d'activité", color = AppColors.OnSurfaceVariant)
+                Text(stringResource(R.string.change_activity), color = AppColors.OnSurfaceVariant)
             }
         }
     }

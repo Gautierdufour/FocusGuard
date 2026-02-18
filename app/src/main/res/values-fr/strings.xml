@@ -1,0 +1,261 @@
+<resources>
+    <!-- App -->
+    <string name="app_name">FocusGuard</string>
+    <string name="notification_title">Focus Guard actif</string>
+    <string name="notification_text">Protection contre les distractions active</string>
+    <string name="permission_usage_title">Permission requise</string>
+    <string name="permission_usage_message">Focus Guard a besoin d\'accéder aux statistiques d\'utilisation pour fonctionner</string>
+    <string name="permission_overlay_message">Permission d\'affichage par-dessus d\'autres applications requise</string>
+    <string name="widget_description">Affichez vos stats FocusGuard : niveau, XP, série et blocages du jour</string>
+
+    <!-- Common -->
+    <string name="cancel">Annuler</string>
+    <string name="back">Retour</string>
+    <string name="save">Sauvegarder</string>
+    <string name="add">Ajouter</string>
+    <string name="delete">Supprimer</string>
+    <string name="start">Démarrer</string>
+    <string name="stop">Arrêter</string>
+    <string name="authorize">Autoriser</string>
+    <string name="retry">Recommencer</string>
+    <string name="continue_btn">Continuer</string>
+    <string name="next">Suivant</string>
+    <string name="skip">Passer</string>
+    <string name="minutes">minutes</string>
+    <string name="validate">Valider</string>
+    <string name="settings">Paramètres</string>
+    <string name="statistics">Statistiques</string>
+
+    <!-- MainActivity / Home -->
+    <string name="icon_settings_desc">Paramètres</string>
+    <string name="take_back_control">Reprenez le contrôle</string>
+    <string name="turn_distractions_into_opportunities">Transformez vos distractions en opportunités</string>
+    <string name="protection_active">Protection active</string>
+    <string name="app_monitored">app surveillée</string>
+    <string name="apps_monitored">apps surveillées</string>
+    <string name="service_control">Contrôle du service</string>
+    <string name="select_apps">Sélectionner des apps</string>
+    <string name="monitored_applications">Applications surveillées</string>
+    <string name="no_app_selected">Aucune app sélectionnée</string>
+    <string name="start_by_selecting_apps">Commencez par sélectionner des apps</string>
+    <string name="apps_under_monitoring">app(s) sous surveillance</string>
+    <string name="stats">Stats</string>
+    <string name="manage">Gérer</string>
+    <string name="required_permissions">Permissions requises</string>
+    <string name="usage_statistics">Statistiques d\'usage</string>
+    <string name="screen_overlay">Superposition d\'écran</string>
+    <string name="smart_planning">Planification Intelligente</string>
+    <string name="schedules_focus_break_location">Horaires / Focus / Pause / Géolocalisation</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome">Bienvenue sur FocusGuard</string>
+    <string name="onboarding_desc1">Reprenez le contrôle de votre temps d\'écran. FocusGuard vous aide à limiter l\'usage des apps addictives grâce à des défis stimulants.</string>
+    <string name="onboarding_challenges">Des défis pour se libérer</string>
+    <string name="onboarding_desc2">Quand vous ouvrez une app bloquée, complétez un défi : pompes, respiration, attente, quiz… Chaque défi renforce votre discipline.</string>
+    <string name="onboarding_gamification">Gamification motivante</string>
+    <string name="onboarding_desc3">Gagnez de l\'XP, montez en niveau, débloquez des badges et maintenez votre série quotidienne. Transformez la discipline en jeu !</string>
+    <string name="onboarding_permissions">Permissions requises</string>
+    <string name="onboarding_desc4">FocusGuard a besoin de l\'accès aux statistiques d\'utilisation pour détecter quand vous ouvrez une app bloquée. Cette permission est essentielle au fonctionnement.</string>
+    <string name="allow_stats_access">Autoriser l\'accès aux stats</string>
+    <string name="get_started">Commencer</string>
+
+    <!-- Settings -->
+    <string name="access_duration_after_challenge">Durée d\'accès après défi</string>
+    <string name="access_time_once_challenge_completed">Temps d\'accès une fois le défi complété</string>
+    <string name="challenge_configuration">Configuration des défis</string>
+    <string name="customize_difficulty">Personnalisez la difficulté</string>
+    <string name="pushups_required">Pompes requises</string>
+    <string name="waiting_duration">Durée d\'attente</string>
+    <string name="breathing_duration">Durée de respiration</string>
+    <string name="cognitive_challenges">Défis Cognitifs</string>
+    <string name="configure_mental_challenges">Configurez les défis mentaux</string>
+    <string name="quiz_questions">Questions Quiz</string>
+    <string name="math_calculations">Calculs Mathématiques</string>
+    <string name="logic_puzzles">Puzzles Logiques</string>
+    <string name="meditation_duration">Durée de Méditation</string>
+    <string name="daily_goals">Objectifs quotidiens</string>
+    <string name="set_daily_goal">Définissez votre objectif journalier</string>
+    <string name="notifications">Notifications</string>
+    <string name="daily_reports_and_encouragement">Rapports quotidiens et encouragements</string>
+    <string name="notifications_enabled">Notifications activées</string>
+    <string name="current_configuration">Configuration actuelle</string>
+    <string name="access_after_challenge">Accès après défi</string>
+    <string name="waiting">Attente</string>
+    <string name="breathing">Respiration</string>
+    <string name="quiz_label">Quiz</string>
+    <string name="math_label">Math</string>
+    <string name="puzzles">Puzzles</string>
+    <string name="meditation">Méditation</string>
+    <string name="blocks_per_day">blocages/jour</string>
+    <string name="daily_goal">Objectif quotidien</string>
+    <string name="customize_your_experience">Personnalisez votre expérience</string>
+    <string name="adjust_settings_to_level">Ajustez les paramètres selon votre niveau</string>
+    <string name="reset_settings_title">Réinitialiser les paramètres ?</string>
+    <string name="reset_settings_message">Tous les paramètres seront restaurés aux valeurs par défaut. Les apps sélectionnées seront conservées.</string>
+    <string name="reset">Réinitialiser</string>
+
+    <!-- Statistics -->
+    <string name="your_progress">Votre progression</string>
+    <string name="conscious_usage_analysis">Analyse de votre usage conscient</string>
+    <string name="blocks">Blocages</string>
+    <string name="time_saved">Temps économisé</string>
+    <string name="most_blocked_apps">Applications les plus bloquées</string>
+    <string name="min_saved">min économisées</string>
+    <string name="addiction_level">Degré d\'addictivité</string>
+    <string name="addiction_score_description">Score basé sur la fréquence et la durée des blocages</string>
+    <string name="very_high">Très élevé</string>
+    <string name="high">Élevé</string>
+    <string name="moderate">Modéré</string>
+    <string name="low">Faible</string>
+    <string name="times">fois</string>
+    <string name="completed_challenges">Défis complétés</string>
+    <string name="last_7_days_activity">Activité des 7 derniers jours</string>
+    <string name="total">Total</string>
+    <string name="average_per_day">Moyenne/jour</string>
+    <string name="active_days">Jours actifs</string>
+    <string name="average_time_per_block">Temps moyen par blocage</string>
+    <string name="overall_average">Moyenne générale</string>
+    <string name="by_application">Par application</string>
+    <string name="unlocked">Débloqués</string>
+    <string name="next_to_unlock">Prochains à débloquer</string>
+    <string name="badges">Badges</string>
+    <string name="level">Niveau</string>
+    <string name="remaining_xp">XP restants</string>
+    <string name="start_journey">Commencez votre parcours !</string>
+    <string name="first_steps_done">Premiers pas accomplis !</string>
+    <string name="taking_control">Vous prenez le contrôle !</string>
+    <string name="over_hour_saved">Plus d\'une heure économisée !</string>
+    <string name="screen_time_master">Maître du temps d\'écran !</string>
+    <string name="challenge_done">Défi terminé !</string>
+    <string name="score_label">Score :</string>
+
+    <!-- Challenge Menu -->
+    <string name="app_blocked">bloquée</string>
+    <string name="choose_healthy_activity">Choisissez une activité saine</string>
+    <string name="mindfulness_exercise">Exercice de pleine conscience</string>
+    <string name="physical_activity">Activité physique</string>
+    <string name="test_your_knowledge">Testez vos connaissances</string>
+    <string name="mathematical_activity">Activité mathématique</string>
+    <string name="train_your_brain">Entraînez votre cerveau</string>
+    <string name="guided_relaxation">Relaxation guidée</string>
+    <string name="change_activity">← Changer d\'activité</string>
+
+    <!-- Breathing Challenge -->
+    <string name="breathing_title">Respiration</string>
+    <string name="inhale">Inspirez</string>
+    <string name="exhale">Expirez</string>
+
+    <!-- Waiting Challenge -->
+    <string name="reflection_time">Temps de réflexion</string>
+    <string name="back_to_home">Retour à l\'accueil</string>
+
+    <!-- Pushup Challenge -->
+    <string name="sports_challenge">Défi sportif</string>
+    <string name="confidence_label">Confiance :</string>
+    <string name="method_label">Méthode</string>
+    <string name="excellent_work">Excellent travail !</string>
+    <string name="pushups_completed">pompes complétées</string>
+
+    <!-- Cognitive Challenges -->
+    <string name="quiz_general_knowledge">Quiz Culture G</string>
+    <string name="question_label">Question</string>
+    <string name="failure">Échec</string>
+    <string name="must_answer_all_correctly">Tu dois répondre correctement à toutes les questions !</string>
+    <string name="quiz_completed">Quiz terminé !</string>
+    <string name="mental_calculation">Calcul Mental</string>
+    <string name="problem_label">Problème</string>
+    <string name="your_answer">Ta réponse</string>
+    <string name="excellent">Excellent !</string>
+    <string name="incorrect_answer">Réponse incorrecte</string>
+    <string name="answer_was">La réponse était :</string>
+    <string name="logic_puzzle">Puzzle Logique</string>
+    <string name="show_hint">Voir l\'indice</string>
+    <string name="not_quite">Pas tout à fait…</string>
+    <string name="bravo">Bravo !</string>
+    <string name="puzzles_completed">Puzzles terminés !</string>
+    <string name="guided_meditation">Méditation Guidée</string>
+    <string name="get_comfortable">Installez-vous confortablement…</string>
+    <string name="close_eyes_gently">Fermez les yeux doucement…</string>
+    <string name="breathe_deeply">Respirez profondément par le nez…</string>
+    <string name="hold_breath">Retenez votre respiration 3 secondes…</string>
+    <string name="exhale_slowly">Expirez lentement par la bouche…</string>
+    <string name="feel_body_relax">Sentez votre corps se détendre…</string>
+    <string name="release_shoulder_tension">Relâchez les tensions dans vos épaules…</string>
+    <string name="focus_present_moment">Concentrez-vous sur le moment présent…</string>
+    <string name="let_thoughts_pass">Laissez passer vos pensées sans les juger…</string>
+    <string name="calm_and_centered">Vous êtes calme et centré…</string>
+
+    <!-- App Settings -->
+    <string name="app_settings_search_hint">Rechercher…</string>
+    <string name="scan_apps">Scan des applications…</string>
+    <string name="system_apps">Apps système</string>
+    <string name="system_apps_examples">Chrome, YouTube, Gmail, Maps…</string>
+    <string name="selected_count">sélectionnée(s)</string>
+    <string name="shown_of">affichée(s) sur</string>
+    <string name="focus_mode">Mode Focus</string>
+    <string name="location_mode">Mode Géographique</string>
+    <string name="apps_blocked_focus">Apps bloquées en mode focus</string>
+    <string name="apps_blocked_zones">Apps bloquées dans les zones</string>
+    <string name="app_selection">Sélection des apps</string>
+
+    <!-- Smart Planning -->
+    <string name="smart_planning_title">Planification Intelligente</string>
+    <string name="schedules_tab">Horaires</string>
+    <string name="focus_tab">Focus</string>
+    <string name="break_tab">Pause</string>
+    <string name="locations_tab">Lieux</string>
+    <string name="no_schedule_defined">Aucun horaire défini</string>
+    <string name="create_time_slots">Créez des plages horaires pour bloquer automatiquement vos apps</string>
+    <string name="custom_schedules">Horaires personnalisés</string>
+    <string name="block_apps_by_schedule">Bloquez vos apps selon vos plages horaires</string>
+    <string name="add_schedule">Ajouter un horaire</string>
+    <string name="new_schedule">Nouvel horaire</string>
+    <string name="name_label">Nom</string>
+    <string name="eg_work_studies">Ex : Travail, Études…</string>
+    <string name="start_time">Heure de début</string>
+    <string name="end_time">Heure de fin</string>
+    <string name="days_label">Jours</string>
+    <string name="mon">Lun</string>
+    <string name="tue">Mar</string>
+    <string name="wed">Mer</string>
+    <string name="thu">Jeu</string>
+    <string name="fri">Ven</string>
+    <string name="sat">Sam</string>
+    <string name="sun">Dim</string>
+    <string name="no_active_session">Aucune session en cours</string>
+    <string name="start_focus_session">Lancez une session focus pour bloquer toutes vos apps</string>
+    <string name="quick_sessions">Sessions rapides</string>
+    <string name="new_focus_session">Nouvelle session focus</string>
+    <string name="session_name">Nom de la session</string>
+    <string name="eg_revision_project">Ex : Révisions, Projet…</string>
+    <string name="duration_minutes">Durée (minutes)</string>
+    <string name="apps_to_block">Applications à bloquer</string>
+    <string name="configure_focus_apps">Configurez les apps bloquées en mode focus</string>
+    <string name="stop_session">Arrêter la session</string>
+    <string name="remaining">restant</string>
+    <string name="temporary_break">Pause temporaire</string>
+    <string name="pause_monitoring">Suspendez la surveillance pendant un moment</string>
+    <string name="quick_durations">Durées rapides</string>
+    <string name="system_paused">Système en pause</string>
+    <string name="ends_in">Fin dans</string>
+    <string name="resume_now">Reprendre maintenant</string>
+    <string name="system_active">Système actif</string>
+    <string name="pause_monitoring_temporarily">Mettez en pause temporairement la surveillance de vos apps</string>
+    <string name="custom_pause">Pause personnalisée</string>
+    <string name="system_will_pause_for">Le système sera mis en pause pendant</string>
+    <string name="geographic_blocking">Blocage géographique</string>
+    <string name="block_by_location">Bloquez vos apps selon votre position</string>
+    <string name="no_location_defined">Aucun lieu défini</string>
+    <string name="add_zones">Ajoutez des zones pour activer le blocage selon votre position</string>
+    <string name="add_location">Ajouter un lieu</string>
+    <string name="new_location">Nouveau lieu</string>
+    <string name="location_name">Nom du lieu</string>
+    <string name="eg_home_office">Ex : Maison, Bureau, École…</string>
+    <string name="radius_meters">Rayon (mètres)</string>
+    <string name="use_current_location">Utiliser ma position actuelle</string>
+    <string name="location_captured">Position capturée ✓</string>
+    <string name="location_permission_required">Permission requise</string>
+    <string name="allow_location_access">Autorisez l\'accès à votre position pour utiliser le blocage géographique</string>
+    <string name="configure_zone_apps">Configurez les apps bloquées dans ces zones</string>
+    <string name="radius_label">Rayon :</string>
+</resources>

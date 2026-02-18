@@ -17,13 +17,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 
 @Composable
 fun DarkPermissionsCard(context: Context) {
     GlassCard(accentColor = AppColors.Secondary) {
         Text(
-            text = "Permissions requises",
+            text = stringResource(R.string.required_permissions),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = AppColors.OnSurface
@@ -33,7 +35,7 @@ fun DarkPermissionsCard(context: Context) {
 
         DarkPermissionItem(
             icon = Icons.Filled.Info,
-            title = "Statistiques d'usage",
+            title = stringResource(R.string.usage_statistics),
             onClick = {
                 context.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
             }
@@ -43,7 +45,7 @@ fun DarkPermissionsCard(context: Context) {
 
         DarkPermissionItem(
             icon = Icons.Filled.Place,
-            title = "Superposition d'écran",
+            title = stringResource(R.string.screen_overlay),
             onClick = {
                 val intent = Intent(
                     Settings.ACTION_MANAGE_OVERLAY_PERMISSION,

@@ -14,10 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.focusguard.app.R
 import com.focusguard.app.AppColors
 import com.focusguard.app.MathChallenge
 import com.focusguard.app.MeditationChallenge
@@ -133,7 +135,7 @@ fun RedesignedChallengeMenu(
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = "$appName bloquée",
+            text = "$appName ${stringResource(R.string.app_blocked)}",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = AppColors.OnSurface,
@@ -143,7 +145,7 @@ fun RedesignedChallengeMenu(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Choisissez une activité saine",
+            text = stringResource(R.string.choose_healthy_activity),
             fontSize = 15.sp,
             color = AppColors.OnSurfaceVariant,
             textAlign = TextAlign.Center
@@ -158,7 +160,7 @@ fun RedesignedChallengeMenu(
             RedesignedChallengeCard(
                 icon = Icons.Filled.Favorite,
                 title = "Respiration",
-                subtitle = "Exercice de pleine conscience",
+                subtitle = stringResource(R.string.mindfulness_exercise),
                 duration = "${breathingDuration / 60} min",
                 accentColor = AppColors.Info,
                 onClick = { onChallengeSelected("breathing") }
@@ -167,7 +169,7 @@ fun RedesignedChallengeMenu(
             RedesignedChallengeCard(
                 icon = Icons.Filled.Star,
                 title = "Sport",
-                subtitle = "Activité physique",
+                subtitle = stringResource(R.string.physical_activity),
                 duration = "$pushupCount pompes",
                 accentColor = AppColors.Success,
                 onClick = { onChallengeSelected("pushups") }
@@ -176,7 +178,7 @@ fun RedesignedChallengeMenu(
             RedesignedChallengeCard(
                 icon = Icons.Filled.Info,
                 title = "Patience",
-                subtitle = "Temps de réflexion",
+                subtitle = stringResource(R.string.reflection_time),
                 duration = "${waitingDuration / 60} min",
                 accentColor = AppColors.Warning,
                 onClick = { onChallengeSelected("waiting") }
@@ -184,8 +186,8 @@ fun RedesignedChallengeMenu(
 
             RedesignedChallengeCard(
                 icon = Icons.Filled.Star,
-                title = "Quiz Culture G",
-                subtitle = "Testez vos connaissances",
+                title = stringResource(R.string.quiz_general_knowledge),
+                subtitle = stringResource(R.string.test_your_knowledge),
                 duration = "1 question",
                 accentColor = AppColors.Info,
                 onClick = { onChallengeSelected("quiz") }
@@ -193,8 +195,8 @@ fun RedesignedChallengeMenu(
 
             RedesignedChallengeCard(
                 icon = Icons.Filled.Star,
-                title = "Calcul Mental",
-                subtitle = "Activité mathématique",
+                title = stringResource(R.string.mental_calculation),
+                subtitle = stringResource(R.string.mathematical_activity),
                 duration = "1 calcul",
                 accentColor = AppColors.Success,
                 onClick = { onChallengeSelected("math") }
@@ -202,8 +204,8 @@ fun RedesignedChallengeMenu(
 
             RedesignedChallengeCard(
                 icon = Icons.Filled.Star,
-                title = "Puzzle Logique",
-                subtitle = "Entraînez votre cerveau",
+                title = stringResource(R.string.logic_puzzle),
+                subtitle = stringResource(R.string.train_your_brain),
                 duration = "1 énigme",
                 accentColor = AppColors.Warning,
                 onClick = { onChallengeSelected("puzzle") }
@@ -212,7 +214,7 @@ fun RedesignedChallengeMenu(
             RedesignedChallengeCard(
                 icon = Icons.Filled.Favorite,
                 title = "Méditation",
-                subtitle = "Relaxation guidée",
+                subtitle = stringResource(R.string.guided_relaxation),
                 duration = "1 min",
                 accentColor = AppColors.Primary,
                 onClick = { onChallengeSelected("meditation") }
@@ -229,11 +231,11 @@ fun RedesignedChallengeMenu(
         ) {
             Icon(
                 imageVector = Icons.Filled.Home,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.back),
                 modifier = Modifier.size(18.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Retour à l'accueil")
+            Text(stringResource(R.string.back_to_home))
         }
     }
 }

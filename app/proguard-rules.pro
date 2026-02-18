@@ -32,3 +32,27 @@
 # Keep ViewModels
 -keep class * extends androidx.lifecycle.ViewModel { *; }
 -keep class * extends androidx.lifecycle.AndroidViewModel { *; }
+
+# Firebase Crashlytics — préserver les stack traces lisibles
+-keepattributes *Annotation*
+-keep public class * extends java.lang.Exception
+-keep class com.google.firebase.crashlytics.** { *; }
+-dontwarn com.google.firebase.crashlytics.**
+
+# Room — préserver les entités et DAOs
+-keep class * extends androidx.room.RoomDatabase { *; }
+-keep @androidx.room.Entity class * { *; }
+-keep @androidx.room.Dao interface * { *; }
+-keepclassmembers class * extends androidx.room.RoomDatabase {
+    abstract *;
+}
+-keep class com.focusguard.app.data.** { *; }
+
+# Application class
+-keep class com.focusguard.app.FocusGuardApplication { *; }
+
+# Glance Widget
+-keep class androidx.glance.** { *; }
+-keep class * extends androidx.glance.appwidget.GlanceAppWidget { *; }
+-keep class * extends androidx.glance.appwidget.GlanceAppWidgetReceiver { *; }
+-dontwarn androidx.glance.**

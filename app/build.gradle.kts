@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "1.9.22-1.0.18"
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -21,6 +23,17 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            val props = java.util.Properties()
+            props.load(rootProject.file("local.properties").inputStream())
+            storeFile = file(props["KEYSTORE_PATH"].toString())
+            storePassword = props["KEYSTORE_PASS"].toString()
+            keyAlias = props["KEY_ALIAS"].toString()
+            keyPassword = props["KEY_PASS"].toString()
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -29,6 +42,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
@@ -87,6 +101,11 @@ dependencies {
     // Glance (Widget)
     implementation("androidx.glance:glance-appwidget:1.0.0")
     implementation("androidx.glance:glance-material3:1.0.0")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 
     // Tests
     testImplementation("junit:junit:4.13.2")

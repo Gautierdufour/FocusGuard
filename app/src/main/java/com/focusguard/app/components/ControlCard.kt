@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.focusguard.app.AppColors
+import com.focusguard.app.R
 
 @Composable
 fun DarkControlCard(
@@ -22,7 +24,7 @@ fun DarkControlCard(
         accentColor = if (serviceRunning) AppColors.Success else AppColors.OnSurfaceLight
     ) {
         Text(
-            text = "Contrôle du service",
+            text = stringResource(R.string.service_control),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = AppColors.OnSurface
@@ -42,7 +44,7 @@ fun DarkControlCard(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    "Sélectionner des apps",
+                    stringResource(R.string.select_apps),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -63,7 +65,7 @@ fun DarkControlCard(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = if (serviceRunning) "Arrêter" else "Démarrer",
+                    text = if (serviceRunning) stringResource(R.string.stop) else stringResource(R.string.start),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )

@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -119,10 +120,10 @@ fun SmartPlanningScreen(
     var selectedTab by remember { mutableStateOf(0) }
 
     val tabs = listOf(
-        Triple("Horaires", Icons.Filled.DateRange, AppColors.Primary),
-        Triple("Focus", Icons.Filled.Favorite, AppColors.Error),
-        Triple("Pause", Icons.Filled.Settings, AppColors.Warning),
-        Triple("Lieux", Icons.Filled.Place, AppColors.Info)
+        Triple(stringResource(R.string.schedules_tab), Icons.Filled.DateRange, AppColors.Primary),
+        Triple(stringResource(R.string.focus_tab), Icons.Filled.Favorite, AppColors.Error),
+        Triple(stringResource(R.string.break_tab), Icons.Filled.Settings, AppColors.Warning),
+        Triple(stringResource(R.string.locations_tab), Icons.Filled.Place, AppColors.Info)
     )
 
     Scaffold(
@@ -139,7 +140,7 @@ fun SmartPlanningScreen(
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "Planification Intelligente",
+                            text = stringResource(R.string.smart_planning_title),
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
@@ -149,7 +150,7 @@ fun SmartPlanningScreen(
                     IconButton(onClick = onBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Retour",
+                            contentDescription = stringResource(R.string.back),
                             tint = AppColors.OnSurface
                         )
                     }
@@ -262,8 +263,8 @@ fun SchedulesTab(context: Context) {
             item {
                 EmptyStateCard(
                     icon = Icons.Filled.DateRange,
-                    title = "Aucun horaire defini",
-                    description = "Creez des plages horaires pour bloquer automatiquement vos apps",
+                    title = stringResource(R.string.no_schedule_defined),
+                    description = stringResource(R.string.create_time_slots),
                     color = AppColors.Primary
                 )
             }
@@ -296,7 +297,7 @@ fun SchedulesTab(context: Context) {
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(
-                    "Ajouter un horaire",
+                    stringResource(R.string.add_schedule),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -331,13 +332,13 @@ fun SchedulesHeaderCard() {
             Spacer(Modifier.width(16.dp))
             Column {
                 Text(
-                    text = "Horaires personnalises",
+                    text = stringResource(R.string.custom_schedules),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = AppColors.OnSurface
                 )
                 Text(
-                    text = "Bloquez vos apps selon vos plages horaires",
+                    text = stringResource(R.string.block_apps_by_schedule),
                     fontSize = 13.sp,
                     color = AppColors.OnSurfaceVariant,
                     lineHeight = 18.sp
@@ -416,7 +417,7 @@ fun ScheduleCard(
             ) {
                 Icon(
                     Icons.Filled.Delete,
-                    contentDescription = "Supprimer",
+                    contentDescription = stringResource(R.string.delete),
                     tint = AppColors.Error,
                     modifier = Modifier.size(20.dp)
                 )
@@ -473,15 +474,15 @@ fun AddScheduleDialog(
         onDismissRequest = onDismiss,
         containerColor = AppColors.GlassBgElevated,
         title = {
-            Text("Nouvel horaire", color = AppColors.OnSurface, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.new_schedule), color = AppColors.OnSurface, fontWeight = FontWeight.Bold)
         },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Nom") },
-                    placeholder = { Text("Ex: Travail, Etudes...") },
+                    label = { Text(stringResource(R.string.name_label)) },
+                    placeholder = { Text(stringResource(R.string.eg_work_studies)) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AppColors.Primary,
                         focusedLabelColor = AppColors.Primary,
@@ -492,7 +493,7 @@ fun AddScheduleDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Text("Heure de debut", fontWeight = FontWeight.Bold, color = AppColors.OnSurface)
+                Text(stringResource(R.string.start_time), fontWeight = FontWeight.Bold, color = AppColors.OnSurface)
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     TimePickerField(
                         value = startHour,
@@ -508,7 +509,7 @@ fun AddScheduleDialog(
                     )
                 }
 
-                Text("Heure de fin", fontWeight = FontWeight.Bold, color = AppColors.OnSurface)
+                Text(stringResource(R.string.end_time), fontWeight = FontWeight.Bold, color = AppColors.OnSurface)
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     TimePickerField(
                         value = endHour,
@@ -524,7 +525,7 @@ fun AddScheduleDialog(
                     )
                 }
 
-                Text("Jours", fontWeight = FontWeight.Bold, color = AppColors.OnSurface)
+                Text(stringResource(R.string.days_label), fontWeight = FontWeight.Bold, color = AppColors.OnSurface)
                 DaySelector(
                     selectedDays = selectedDays,
                     onDaysChanged = { selectedDays = it }
@@ -558,12 +559,12 @@ fun AddScheduleDialog(
                     )
                 )
             ) {
-                Text("Ajouter", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.add), fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Annuler", color = AppColors.OnSurface)
+                Text(stringResource(R.string.cancel), color = AppColors.OnSurface)
             }
         }
     )
@@ -599,7 +600,15 @@ fun DaySelector(
     selectedDays: Int,
     onDaysChanged: (Int) -> Unit
 ) {
-    val days = listOf("Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim")
+    val days = listOf(
+        stringResource(R.string.mon),
+        stringResource(R.string.tue),
+        stringResource(R.string.wed),
+        stringResource(R.string.thu),
+        stringResource(R.string.fri),
+        stringResource(R.string.sat),
+        stringResource(R.string.sun)
+    )
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -690,8 +699,8 @@ fun FocusTab(context: Context) {
             item {
                 EmptyStateCard(
                     icon = Icons.Filled.Favorite,
-                    title = "Aucune session en cours",
-                    description = "Lancez une session focus pour bloquer toutes vos apps",
+                    title = stringResource(R.string.no_active_session),
+                    description = stringResource(R.string.start_focus_session),
                     color = AppColors.Error
                 )
             }
@@ -767,7 +776,7 @@ fun FocusHeaderCard() {
                 Spacer(Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Mode Focus",
+                        text = stringResource(R.string.focus_mode),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = AppColors.OnSurface
