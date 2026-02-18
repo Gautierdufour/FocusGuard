@@ -1015,7 +1015,7 @@ fun MeditationChallenge(
             // Progress indicator
             Box(contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(
-                    progress = progress,
+                    progress = { progress },
                     modifier = Modifier.size(150.dp),
                     color = AppColors.Primary,
                     strokeWidth = 8.dp,

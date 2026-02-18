@@ -14,6 +14,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -127,7 +130,7 @@ fun DarkStatisticsScreen(onBack: () -> Unit) {
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Retour",
                             tint = AppColors.OnSurface
                         )
@@ -823,6 +826,7 @@ fun StatsGamificationCard() {
     val xpProgress = GamificationManager.getXPProgress(context)
     val xpToNext = GamificationManager.getXPToNextLevel(context)
     val currentStreak = GamificationManager.getCurrentStreak(context)
+    @Suppress("UNUSED_VARIABLE")
     val bestStreak = GamificationManager.getBestStreak(context)
     val unlockedBadges = GamificationManager.getUnlockedBadgesList(context)
     val lockedBadges = GamificationManager.getLockedBadgesList(context)

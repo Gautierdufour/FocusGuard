@@ -220,7 +220,7 @@ fun UniversalPushupChallenge(
             )
 
             CircularProgressIndicator(
-                progress = animatedProgress,
+                progress = { animatedProgress },
                 modifier = Modifier.size(200.dp),
                 color = AppColors.Success,
                 strokeWidth = 14.dp,

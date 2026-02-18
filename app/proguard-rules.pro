@@ -4,6 +4,13 @@
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
+# Supprimer tous les logs debug/verbose en release (pas d'impact runtime)
+-assumenosideeffects class android.util.Log {
+    public static int v(...);
+    public static int d(...);
+    public static boolean isLoggable(java.lang.String, int);
+}
+
 # Keep the service and receiver classes (referenced in AndroidManifest.xml)
 -keep class com.focusguard.app.MonitorService { *; }
 -keep class com.focusguard.app.BootReceiver { *; }

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.ui.graphics.Color
 import com.focusguard.app.data.StatsRepository
-import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,14 +41,12 @@ object GamificationManager {
         val prefs = getPrefs(context)
         val currentXP = getTotalXP(context)
         val newXP = currentXP + amount
-        
+
         prefs.edit().putInt(KEY_XP, newXP).apply()
-        
-        // Vérifier si level up
+
+        // Vérifier si level up (SharedPrefs uniquement, pas de DB)
         checkLevelUp(context)
-        
-        // Vérifier nouveaux badges
-        checkNewBadges(context)
+        // Note : checkNewBadges() est appelé séparément via coroutine dans le ViewModel
     }
     
     fun getCurrentLevel(context: Context): Int {
@@ -152,33 +149,33 @@ object GamificationManager {
     }
     
     // ==================== BADGES ====================
-    
+
+    private suspend fun getBlockCount(context: Context): Int {
+        return try {
+            StatsRepository.getInstance(context).getTotalBlocks()
+        } catch (e: Exception) { 0 }
+    }
+
+    private suspend fun getChallengeCount(context: Context, type: String): Int {
+        return try {
+            StatsRepository.getInstance(context).getChallengeCountByType(type)
+        } catch (e: Exception) { 0 }
+    }
+
+    private suspend fun getTotalTimeSavedFromRoom(context: Context): Int {
+        return try {
+            StatsRepository.getInstance(context).getTotalTimeSaved()
+        } catch (e: Exception) { 0 }
+    }
+
     data class Badge(
         val id: String,
         val name: String,
         val description: String,
-        val icon: String, // Emoji
-        val requirement: (Context) -> Boolean,
+        val icon: String,
+        val requirement: suspend (Context) -> Boolean,
         val color: Color
     )
-    
-    private fun getBlockCount(context: Context): Int {
-        return try {
-            runBlocking { StatsRepository.getInstance(context).getTotalBlocks() }
-        } catch (e: Exception) { 0 }
-    }
-
-    private fun getChallengeCount(context: Context, type: String): Int {
-        return try {
-            runBlocking { StatsRepository.getInstance(context).getChallengeCountByType(type) }
-        } catch (e: Exception) { 0 }
-    }
-
-    private fun getTotalTimeSavedFromRoom(context: Context): Int {
-        return try {
-            runBlocking { StatsRepository.getInstance(context).getTotalTimeSaved() }
-        } catch (e: Exception) { 0 }
-    }
 
     val ALL_BADGES = listOf(
         Badge(
@@ -277,17 +274,17 @@ object GamificationManager {
         return getPrefs(context).getStringSet(KEY_UNLOCKED_BADGES, emptySet()) ?: emptySet()
     }
     
-    private fun checkNewBadges(context: Context) {
+    suspend fun checkNewBadges(context: Context) {
         val unlocked = getUnlockedBadges(context).toMutableSet()
         var hasNewBadge = false
-        
+
         ALL_BADGES.forEach { badge ->
             if (!unlocked.contains(badge.id) && badge.requirement(context)) {
                 unlocked.add(badge.id)
                 hasNewBadge = true
             }
         }
-        
+
         if (hasNewBadge) {
             getPrefs(context).edit()
                 .putStringSet(KEY_UNLOCKED_BADGES, unlocked)

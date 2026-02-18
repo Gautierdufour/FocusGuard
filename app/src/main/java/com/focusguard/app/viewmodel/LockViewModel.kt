@@ -8,7 +8,9 @@ import com.focusguard.app.AppPreferences
 import com.focusguard.app.GamificationManager
 import com.focusguard.app.data.StatsRepository
 import com.focusguard.app.utils.AppDisplayNames
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LockViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -64,6 +66,14 @@ class LockViewModel(application: Application) : AndroidViewModel(application) {
                 statsRepository.recordChallenge(challengeType, packageName, xpAmount, timeSavedMinutes)
             } catch (e: Exception) {
                 android.util.Log.e("LockViewModel", "Erreur Room recordChallenge", e)
+            }
+            // Vérification des badges en background (évite runBlocking sur UI)
+            withContext(Dispatchers.IO) {
+                try {
+                    GamificationManager.checkNewBadges(context)
+                } catch (e: Exception) {
+                    android.util.Log.e("LockViewModel", "Erreur checkNewBadges", e)
+                }
             }
         }
 

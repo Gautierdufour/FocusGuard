@@ -55,7 +55,7 @@ fun RedesignedWaitingChallenge(
 
             Box(contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(
-                    progress = progress,
+                    progress = { progress },
                     modifier = Modifier.size(220.dp),
                     color = glowColor,
                     strokeWidth = 12.dp,
