@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Focus Guard</string>
+    <string name="notification_title">Focus Guard actif</string>
+    <string name="notification_text">Protection contre les distractions active</string>
+    <string name="permission_usage_title">Permission requise</string>
+    <string name="permission_usage_message">Focus Guard a besoin d\'accéder aux statistiques d\'utilisation pour fonctionner</string>
+    <string name="permission_overlay_message">Permission d\'affichage par-dessus d\'autres applications requise</string>
+    <string name="widget_description">Affichez vos stats FocusGuard : niveau, XP, série et blocages du jour</string>
+</resources>

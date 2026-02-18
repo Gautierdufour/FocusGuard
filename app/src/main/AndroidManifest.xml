@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permissions nécessaires -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- ✅ NOUVELLE PERMISSION CRITIQUE pour voir toutes les apps installées -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- Permissions de localisation pour le blocage géographique -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FocusGuard"
+        tools:targetApi="31">
+
+        <!-- Onboarding (point d'entrée) -->
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.FocusGuard">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Activité principale -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.FocusGuard" />
+
+        <!-- Écran de blocage -->
+        <activity
+            android:name=".LockActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.FocusGuard" />
+
+        <!-- Écran de statistiques -->
+        <activity
+            android:name=".StatisticsActivity"
+            android:exported="false"
+            android:label="Statistiques d'usage"
+            android:theme="@style/Theme.FocusGuard" />
+
+        <!-- Écran de paramètres des applications -->
+        <activity
+            android:name=".AppSettingsActivity"
+            android:exported="false"
+            android:label="Sélection des applications"
+            android:theme="@style/Theme.FocusGuard" />
+
+        <!-- Écran de paramètres -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="Paramètres"
+            android:theme="@style/Theme.FocusGuard" />
+
+        <!-- Écran de planification intelligente -->
+        <activity
+            android:name=".SmartPlanningActivity"
+            android:exported="false"
+            android:label="Planification Intelligente"
+            android:theme="@style/Theme.FocusGuard" />
+
+        <!-- Service de surveillance -->
+        <service
+            android:name=".MonitorService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            android:stopWithTask="false" />
+
+        <!-- Receiver pour redémarrage automatique -->
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Widget -->
+        <receiver
+            android:name=".widget.FocusGuardWidgetReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/focus_guard_widget_info" />
+        </receiver>
+
+    </application>
+
+</manifest>

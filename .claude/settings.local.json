@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew assembleDebug:*)",
+      "Bash(export JAVA_HOME=\"/c/Program Files/Android/Android Studio/jbr\")",
+      "Bash(java:*)",
+      "Bash(./gradlew compileDebugKotlin:*)",
+      "Bash(echo:*)",
+      "Bash(where:*)",
+      "Bash(JAVA_HOME=\"C:\\\\Program Files\\\\Eclipse Adoptium\\\\jdk-21.0.8.9-hotspot\" ./gradlew compileDebugKotlin:*)",
+      "Bash(JAVA_HOME=\"C:\\\\Program Files\\\\Eclipse Adoptium\\\\jdk-21.0.8.9-hotspot\" ./gradlew assembleDebug:*)",
+      "Bash(ls:*)",
+      "Bash(python3 -m json.tool:*)",
+      "Bash(python3:*)",
+      "Bash(python:*)",
+      "Bash(JAVA_HOME=\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot\" ./gradlew:*)",
+      "Bash(grep:*)"
+    ]
+  }
+}
