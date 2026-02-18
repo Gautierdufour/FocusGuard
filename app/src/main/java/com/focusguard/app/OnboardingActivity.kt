@@ -69,6 +69,7 @@ data class OnboardingPage(
     val color: Color
 )
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun OnboardingScreen(
     onComplete: () -> Unit,
