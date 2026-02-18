@@ -277,6 +277,15 @@
     <string name="radius_value_label">Radius: %dm</string>
     <string name="apps_configured_count">%d app(s) configured</string>
     <string name="location_permission_toast">Location permission required for zone-based blocking</string>
+    <string name="protection_requires_apps">Select at least one app to activate protection</string>
+    <string name="settings_saved">Saved ✓</string>
+    <string name="permission_granted">Granted</string>
+    <string name="permission_required_action">Required — tap to grant</string>
+    <string name="onboarding_ready_title">You\'re all set!</string>
+    <string name="onboarding_ready_subtitle">Let\'s build better habits together</string>
+    <string name="hero_step_block">Block</string>
+    <string name="hero_step_challenge">Challenge</string>
+    <string name="hero_step_level_up">Level up</string>
 
     <!-- Plurals -->
     <plurals name="pushup_count">

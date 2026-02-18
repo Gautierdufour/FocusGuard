@@ -7,6 +7,7 @@ import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -77,6 +79,74 @@ data class OnboardingPage(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun OnboardingScreen(
+    onComplete: () -> Unit,
+    onRequestUsageAccess: () -> Unit
+) {
+    var showCelebration by remember { mutableStateOf(false) }
+
+    AnimatedContent(
+        targetState = showCelebration,
+        transitionSpec = { fadeIn(tween(400)) togetherWith fadeOut(tween(200)) },
+        label = "onboarding_transition"
+    ) { celebrating ->
+        if (celebrating) {
+            OnboardingCelebrationScreen(onAnimationEnd = onComplete)
+        } else {
+            OnboardingPagerScreen(
+                onComplete = { showCelebration = true },
+                onRequestUsageAccess = onRequestUsageAccess
+            )
+        }
+    }
+}
+
+@Composable
+private fun OnboardingCelebrationScreen(onAnimationEnd: () -> Unit) {
+    val scale by animateFloatAsState(
+        targetValue = 1f,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium),
+        label = "celebration_scale"
+    )
+
+    LaunchedEffect(Unit) {
+        kotlinx.coroutines.delay(1600)
+        onAnimationEnd()
+    }
+
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(32.dp)
+        ) {
+            Text(
+                text = "🎉",
+                fontSize = 72.sp,
+                modifier = Modifier.scale(scale)
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = stringResource(R.string.onboarding_ready_title),
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = AppColors.Primary,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = stringResource(R.string.onboarding_ready_subtitle),
+                fontSize = 16.sp,
+                color = AppColors.OnSurfaceVariant,
+                textAlign = TextAlign.Center,
+                lineHeight = 24.sp
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun OnboardingPagerScreen(
     onComplete: () -> Unit,
     onRequestUsageAccess: () -> Unit
 ) {

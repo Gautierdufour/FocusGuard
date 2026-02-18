@@ -1,18 +1,27 @@
 package com.focusguard.app.components
 
+import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Process
 import android.provider.Settings
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,7 +32,11 @@ import com.focusguard.app.R
 
 @Composable
 fun DarkPermissionsCard(context: Context) {
-    GlassCard(accentColor = AppColors.Secondary) {
+    val hasUsageStats = remember { hasUsageStatsPermission(context) }
+    val hasOverlay = remember { Settings.canDrawOverlays(context) }
+    val allGranted = hasUsageStats && hasOverlay
+
+    GlassCard(accentColor = if (allGranted) AppColors.Success else AppColors.Secondary) {
         Text(
             text = stringResource(R.string.required_permissions),
             fontSize = 16.sp,
@@ -36,6 +49,7 @@ fun DarkPermissionsCard(context: Context) {
         DarkPermissionItem(
             icon = Icons.Filled.Info,
             title = stringResource(R.string.usage_statistics),
+            isGranted = hasUsageStats,
             onClick = {
                 context.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
             }
@@ -46,6 +60,7 @@ fun DarkPermissionsCard(context: Context) {
         DarkPermissionItem(
             icon = Icons.Filled.Place,
             title = stringResource(R.string.screen_overlay),
+            isGranted = hasOverlay,
             onClick = {
                 val intent = Intent(
                     Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -61,16 +76,75 @@ fun DarkPermissionsCard(context: Context) {
 fun DarkPermissionItem(
     icon: ImageVector,
     title: String,
+    isGranted: Boolean,
     onClick: () -> Unit
 ) {
-    GlassButton(
-        onClick = onClick,
-        accentColor = AppColors.Primary,
-        isPrimary = false
+    val accentColor = if (isGranted) AppColors.Success else AppColors.Warning
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(accentColor.copy(alpha = 0.08f))
+            .border(1.dp, accentColor.copy(alpha = 0.25f), RoundedCornerShape(12.dp))
     ) {
-        Icon(icon, null, modifier = Modifier.size(20.dp), tint = AppColors.Primary)
-        Spacer(Modifier.width(12.dp))
-        Text(title, modifier = Modifier.weight(1f), color = AppColors.OnSurface)
-        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, tint = AppColors.OnSurfaceVariant)
+        if (isGranted) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(icon, null, modifier = Modifier.size(20.dp), tint = AppColors.Success)
+                Spacer(Modifier.width(12.dp))
+                Text(
+                    text = title,
+                    modifier = Modifier.weight(1f),
+                    color = AppColors.OnSurface,
+                    fontSize = 14.sp
+                )
+                Icon(
+                    Icons.Filled.CheckCircle,
+                    contentDescription = stringResource(R.string.permission_granted),
+                    tint = AppColors.Success,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(
+                    text = stringResource(R.string.permission_granted),
+                    fontSize = 12.sp,
+                    color = AppColors.Success,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        } else {
+            GlassButton(
+                onClick = onClick,
+                accentColor = AppColors.Warning,
+                isPrimary = false
+            ) {
+                Icon(icon, null, modifier = Modifier.size(20.dp), tint = AppColors.Warning)
+                Spacer(Modifier.width(12.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(title, color = AppColors.OnSurface, fontSize = 14.sp)
+                    Text(
+                        text = stringResource(R.string.permission_required_action),
+                        fontSize = 11.sp,
+                        color = AppColors.Warning
+                    )
+                }
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, tint = AppColors.Warning)
+            }
+        }
     }
+}
+
+private fun hasUsageStatsPermission(context: Context): Boolean {
+    val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+    val mode = appOps.checkOpNoThrow(
+        AppOpsManager.OPSTR_GET_USAGE_STATS,
+        Process.myUid(),
+        context.packageName
+    )
+    return mode == AppOpsManager.MODE_ALLOWED
 }

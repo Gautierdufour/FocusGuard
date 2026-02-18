@@ -277,6 +277,15 @@
     <string name="radius_value_label">Rayon : %dm</string>
     <string name="apps_configured_count">%d app(s) configurée(s)</string>
     <string name="location_permission_toast">La permission de localisation est requise pour le blocage par zone</string>
+    <string name="protection_requires_apps">Sélectionnez au moins une app pour activer la protection</string>
+    <string name="settings_saved">Enregistré ✓</string>
+    <string name="permission_granted">Accordée</string>
+    <string name="permission_required_action">Requise — appuyez pour accorder</string>
+    <string name="onboarding_ready_title">Vous êtes prêt !</string>
+    <string name="onboarding_ready_subtitle">Construisons de meilleures habitudes ensemble</string>
+    <string name="hero_step_block">Bloquer</string>
+    <string name="hero_step_challenge">Défi</string>
+    <string name="hero_step_level_up">Progresser</string>
 
     <!-- Pluriels -->
     <plurals name="pushup_count">

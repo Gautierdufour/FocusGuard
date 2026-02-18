@@ -15,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +46,16 @@ class SettingsActivity : ComponentActivity() {
 fun DarkSettingsScreen(onBack: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val resources = context.resources
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val savedLabel = resources.getString(R.string.settings_saved)
+
+    fun notifySaved() {
+        coroutineScope.launch {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            snackbarHostState.showSnackbar(savedLabel, duration = SnackbarDuration.Short)
+        }
+    }
 
     var accessDuration by remember { mutableStateOf(AppPreferences.getAccessDuration(context)) }
     var pushupCount by remember { mutableStateOf(AppPreferences.getPushupCount(context)) }
@@ -61,6 +72,16 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
 
     Scaffold(
         containerColor = Color.Transparent,
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = AppColors.Success.copy(alpha = 0.9f),
+                    contentColor = AppColors.OnSurface,
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+                )
+            }
+        },
         topBar = {
             TopAppBar(
                 title = {
@@ -121,6 +142,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         onValueChange = {
                             accessDuration = it
                             AppPreferences.setAccessDuration(context, it)
+                            notifySaved()
                         },
                         accentColor = AppColors.Primary
                     )
@@ -143,6 +165,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             onValueChange = {
                                 pushupCount = it
                                 AppPreferences.setPushupCount(context, it)
+                                notifySaved()
                             },
                             accentColor = AppColors.Success
                         )
@@ -155,6 +178,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             onValueChange = {
                                 waitingDuration = it
                                 AppPreferences.setWaitingDuration(context, it)
+                                notifySaved()
                             },
                             accentColor = AppColors.Warning
                         )
@@ -167,6 +191,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             onValueChange = {
                                 breathingDuration = it
                                 AppPreferences.setBreathingDuration(context, it)
+                                notifySaved()
                             },
                             accentColor = AppColors.Info
                         )
@@ -190,6 +215,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             onValueChange = {
                                 quizCount = it
                                 AppPreferences.setQuizCount(context, it)
+                                notifySaved()
                             },
                             accentColor = AppColors.Info
                         )
@@ -202,6 +228,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             onValueChange = {
                                 mathCount = it
                                 AppPreferences.setMathCount(context, it)
+                                notifySaved()
                             },
                             accentColor = AppColors.Success
                         )
@@ -214,6 +241,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             onValueChange = {
                                 puzzleCount = it
                                 AppPreferences.setPuzzleCount(context, it)
+                                notifySaved()
                             },
                             accentColor = AppColors.Warning
                         )
@@ -226,6 +254,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             onValueChange = {
                                 meditationDuration = it
                                 AppPreferences.setMeditationDuration(context, it)
+                                notifySaved()
                             },
                             accentColor = AppColors.Primary
                         )
@@ -249,6 +278,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                         onValueChange = {
                             dailyGoal = it
                             AppPreferences.setDailyGoal(context, it)
+                            notifySaved()
                         },
                         accentColor = AppColors.Accent
                     )
@@ -289,6 +319,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             onCheckedChange = {
                                 notificationsEnabled = it
                                 AppPreferences.setNotificationsEnabled(context, it)
+                                notifySaved()
                             },
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = Color.Black,

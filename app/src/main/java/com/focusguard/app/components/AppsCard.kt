@@ -49,10 +49,10 @@ fun DarkAppsCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(16.dp))
-                    .background(AppColors.GlassBgSubtle)
+                    .background(AppColors.Error.copy(alpha = 0.07f))
                     .border(
                         width = 1.dp,
-                        color = AppColors.Warning.copy(alpha = 0.2f),
+                        color = AppColors.Error.copy(alpha = 0.35f),
                         shape = RoundedCornerShape(16.dp)
                     )
                     .padding(24.dp),
@@ -60,9 +60,9 @@ fun DarkAppsCard(
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
-                        imageVector = Icons.Filled.Add,
+                        imageVector = Icons.Filled.Warning,
                         contentDescription = null,
-                        tint = AppColors.Warning,
+                        tint = AppColors.Error,
                         modifier = Modifier.size(40.dp)
                     )
                     Spacer(modifier = Modifier.height(12.dp))
@@ -70,13 +70,15 @@ fun DarkAppsCard(
                         text = stringResource(R.string.no_app_selected),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        color = AppColors.OnSurface
+                        color = AppColors.Error
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = stringResource(R.string.start_by_selecting_apps),
+                        text = stringResource(R.string.protection_requires_apps),
                         fontSize = 13.sp,
                         color = AppColors.OnSurfaceVariant,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        lineHeight = 18.sp
                     )
                 }
             }

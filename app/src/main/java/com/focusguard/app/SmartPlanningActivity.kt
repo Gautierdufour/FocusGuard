@@ -44,6 +44,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SmartPlanningActivity : ComponentActivity() {
+    private var permissionRefreshKey by mutableStateOf(0)
+
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -56,8 +58,7 @@ class SmartPlanningActivity : ComponentActivity() {
                 android.widget.Toast.LENGTH_LONG
             ).show()
         }
-        // Recreate to refresh permission state in Compose UI
-        recreate()
+        permissionRefreshKey++
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +68,7 @@ class SmartPlanningActivity : ComponentActivity() {
                 GlassBackground {
                     SmartPlanningScreen(
                         onBack = { finish() },
+                        permissionRefreshKey = permissionRefreshKey,
                         onRequestLocationPermission = {
                             locationPermissionRequest.launch(
                                 arrayOf(
@@ -114,6 +116,7 @@ data class FocusSession(
 @Composable
 fun SmartPlanningScreen(
     onBack: () -> Unit,
+    permissionRefreshKey: Int = 0,
     onRequestLocationPermission: () -> Unit
 ) {
     val context = LocalContext.current
@@ -179,7 +182,7 @@ fun SmartPlanningScreen(
                 0 -> SchedulesTab(context)
                 1 -> FocusTab(context)
                 2 -> PauseTab(context)
-                3 -> LocationTab(context, onRequestLocationPermission)
+                3 -> LocationTab(context, permissionRefreshKey, onRequestLocationPermission)
             }
         }
     }
@@ -1367,11 +1370,12 @@ fun CustomPauseDialog(
 @Composable
 fun LocationTab(
     context: Context,
+    permissionRefreshKey: Int = 0,
     onRequestLocationPermission: () -> Unit
 ) {
     var zones by remember { mutableStateOf(loadLocationZones(context)) }
     var showAddDialog by remember { mutableStateOf(false) }
-    val hasPermission = hasLocationPermission(context)
+    val hasPermission = remember(permissionRefreshKey) { hasLocationPermission(context) }
 
     LazyColumn(
         modifier = Modifier
