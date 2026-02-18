@@ -258,4 +258,43 @@
     <string name="allow_location_access">Autorisez l\'accès à votre position pour utiliser le blocage géographique</string>
     <string name="configure_zone_apps">Configurez les apps bloquées dans ces zones</string>
     <string name="radius_label">Rayon :</string>
+
+    <!-- Settings — libellés de format -->
+    <string name="duration_label">Durée</string>
+    <string name="min_abbr">min</string>
+    <string name="pushup_label">Pompes</string>
+    <string name="block_suffix">blocages</string>
+
+    <!-- Titres de défis (autonomes) -->
+    <string name="challenge_sport">Sport</string>
+    <string name="challenge_patience">Patience</string>
+
+    <!-- Planification Intelligente — nouvelles chaînes -->
+    <string name="focus_mode_subtitle">Concentrez-vous sans distractions</string>
+    <string name="custom_session">Session personnalisée</string>
+    <string name="ends_in_minutes">Fin dans %d min</string>
+    <string name="system_will_pause_for_minutes">Le système sera mis en pause pendant %d min</string>
+    <string name="radius_value_label">Rayon : %dm</string>
+    <string name="apps_configured_count">%d app(s) configurée(s)</string>
+    <string name="location_permission_toast">La permission de localisation est requise pour le blocage par zone</string>
+
+    <!-- Pluriels -->
+    <plurals name="pushup_count">
+        <item quantity="one">%d pompe</item>
+        <item quantity="other">%d pompes</item>
+    </plurals>
+    <plurals name="question_count">
+        <item quantity="one">%d question</item>
+        <item quantity="other">%d questions</item>
+    </plurals>
+    <plurals name="calc_count">
+        <item quantity="one">%d calcul</item>
+        <item quantity="other">%d calculs</item>
+    </plurals>
+    <plurals name="puzzle_count">
+        <item quantity="one">%d énigme</item>
+        <item quantity="other">%d énigmes</item>
+    </plurals>
 </resources>
+
+

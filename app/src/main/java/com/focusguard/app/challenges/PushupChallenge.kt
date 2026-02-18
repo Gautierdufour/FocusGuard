@@ -95,7 +95,7 @@ fun UniversalPushupChallenge(
     }
 
     var manualCount by remember { mutableStateOf(0) }
-    var showDebug by remember { mutableStateOf(true) }
+    var showDebug by remember { mutableStateOf(false) }
 
     val pushUpCount = when (method) {
         PushupMethod.MANUAL -> manualCount

@@ -52,7 +52,7 @@ class SmartPlanningActivity : ComponentActivity() {
         if (!fineGranted && !coarseGranted) {
             android.widget.Toast.makeText(
                 this,
-                "La permission de localisation est requise pour le blocage par zone",
+                getString(R.string.location_permission_toast),
                 android.widget.Toast.LENGTH_LONG
             ).show()
         }
@@ -726,7 +726,7 @@ fun FocusTab(context: Context) {
                     )
                     Spacer(Modifier.width(12.dp))
                     Text(
-                        "Session personnalisee",
+                        stringResource(R.string.custom_session),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -782,7 +782,7 @@ fun FocusHeaderCard() {
                         color = AppColors.OnSurface
                     )
                     Text(
-                        text = "Concentrez-vous sans distractions",
+                        text = stringResource(R.string.focus_mode_subtitle),
                         fontSize = 13.sp,
                         color = AppColors.OnSurfaceVariant,
                         lineHeight = 18.sp
@@ -795,8 +795,8 @@ fun FocusHeaderCard() {
             mode = "focus",
             appsCount = focusAppsCount,
             icon = Icons.Filled.Phone,
-            label = "Applications a bloquer",
-            description = "Configurez les apps bloquees en mode focus",
+            label = stringResource(R.string.apps_to_block),
+            description = stringResource(R.string.configure_focus_apps),
             color = AppColors.Error
         )
     }
@@ -848,7 +848,7 @@ fun ActiveFocusCard(
                         color = AppColors.Error
                     )
                     Text(
-                        text = "restant",
+                        text = stringResource(R.string.remaining),
                         fontSize = 14.sp,
                         color = AppColors.OnSurfaceVariant
                     )
@@ -872,7 +872,7 @@ fun ActiveFocusCard(
             ) {
                 Icon(Icons.Filled.Clear, null)
                 Spacer(Modifier.width(8.dp))
-                Text("Arreter la session", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.stop_session), fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -884,7 +884,7 @@ fun FocusPresetsCard(
 ) {
     GlassCard(accentColor = AppColors.Error) {
         Text(
-            text = "Sessions rapides",
+            text = stringResource(R.string.quick_sessions),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = AppColors.OnSurface
@@ -985,15 +985,15 @@ fun CustomFocusDialog(
         onDismissRequest = onDismiss,
         containerColor = AppColors.GlassBgElevated,
         title = {
-            Text("Nouvelle session focus", color = AppColors.OnSurface, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.new_focus_session), color = AppColors.OnSurface, fontWeight = FontWeight.Bold)
         },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Nom de la session") },
-                    placeholder = { Text("Ex: Revisions, Projet...") },
+                    label = { Text(stringResource(R.string.session_name)) },
+                    placeholder = { Text(stringResource(R.string.eg_revision_project)) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AppColors.Error,
                         focusedLabelColor = AppColors.Error,
@@ -1011,7 +1011,7 @@ fun CustomFocusDialog(
                             duration = num.coerceIn(5, 180)
                         }
                     },
-                    label = { Text("Duree (minutes)") },
+                    label = { Text(stringResource(R.string.duration_minutes)) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AppColors.Error,
                         focusedLabelColor = AppColors.Error,
@@ -1041,12 +1041,12 @@ fun CustomFocusDialog(
                     )
                 )
             ) {
-                Text("Demarrer", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.start), fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Annuler", color = AppColors.OnSurface)
+                Text(stringResource(R.string.cancel), color = AppColors.OnSurface)
             }
         }
     )
@@ -1092,8 +1092,8 @@ fun PauseTab(context: Context) {
             item {
                 EmptyStateCard(
                     icon = Icons.Filled.Settings,
-                    title = "Systeme actif",
-                    description = "Mettez en pause temporairement la surveillance de vos apps",
+                    title = stringResource(R.string.system_active),
+                    description = stringResource(R.string.pause_monitoring_temporarily),
                     color = AppColors.Warning
                 )
             }
@@ -1120,7 +1120,7 @@ fun PauseTab(context: Context) {
                     )
                     Spacer(Modifier.width(12.dp))
                     Text(
-                        "Pause personnalisee",
+                        stringResource(R.string.custom_pause),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -1157,13 +1157,13 @@ fun PauseHeaderCard() {
             Spacer(Modifier.width(16.dp))
             Column {
                 Text(
-                    text = "Pause temporaire",
+                    text = stringResource(R.string.temporary_break),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = AppColors.OnSurface
                 )
                 Text(
-                    text = "Suspendez la surveillance pendant un moment",
+                    text = stringResource(R.string.pause_monitoring),
                     fontSize = 13.sp,
                     color = AppColors.OnSurfaceVariant,
                     lineHeight = 18.sp
@@ -1195,7 +1195,7 @@ fun ActivePauseCard(
             Spacer(Modifier.height(16.dp))
 
             Text(
-                text = "Systeme en pause",
+                text = stringResource(R.string.system_paused),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = AppColors.Warning
@@ -1204,7 +1204,7 @@ fun ActivePauseCard(
             Spacer(Modifier.height(8.dp))
 
             Text(
-                text = "Fin dans $remainingMinutes minutes",
+                text = stringResource(R.string.ends_in_minutes, remainingMinutes),
                 fontSize = 16.sp,
                 color = AppColors.OnSurfaceVariant
             )
@@ -1226,7 +1226,7 @@ fun ActivePauseCard(
             ) {
                 Icon(Icons.Filled.Clear, null)
                 Spacer(Modifier.width(8.dp))
-                Text("Reprendre maintenant", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.resume_now), fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -1238,7 +1238,7 @@ fun PausePresetsCard(
 ) {
     GlassCard(accentColor = AppColors.Warning) {
         Text(
-            text = "Durees rapides",
+            text = stringResource(R.string.quick_durations),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = AppColors.OnSurface
@@ -1308,7 +1308,7 @@ fun CustomPauseDialog(
         onDismissRequest = onDismiss,
         containerColor = AppColors.GlassBgElevated,
         title = {
-            Text("Pause personnalisee", color = AppColors.OnSurface, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.custom_pause), color = AppColors.OnSurface, fontWeight = FontWeight.Bold)
         },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -1319,7 +1319,7 @@ fun CustomPauseDialog(
                             duration = num.coerceIn(5, 480)
                         }
                     },
-                    label = { Text("Duree (minutes)") },
+                    label = { Text(stringResource(R.string.duration_minutes)) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AppColors.Warning,
                         focusedLabelColor = AppColors.Warning,
@@ -1331,7 +1331,7 @@ fun CustomPauseDialog(
                 )
 
                 Text(
-                    text = "Le systeme sera mis en pause pendant $duration minutes",
+                    text = stringResource(R.string.system_will_pause_for_minutes, duration),
                     fontSize = 13.sp,
                     color = AppColors.OnSurfaceVariant
                 )
@@ -1351,12 +1351,12 @@ fun CustomPauseDialog(
                     )
                 )
             ) {
-                Text("Demarrer", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.start), fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Annuler", color = AppColors.OnSurface)
+                Text(stringResource(R.string.cancel), color = AppColors.OnSurface)
             }
         }
     )
@@ -1394,8 +1394,8 @@ fun LocationTab(
                 item {
                     EmptyStateCard(
                         icon = Icons.Filled.Place,
-                        title = "Aucun lieu defini",
-                        description = "Ajoutez des zones pour activer le blocage selon votre position",
+                        title = stringResource(R.string.no_location_defined),
+                        description = stringResource(R.string.add_zones),
                         color = AppColors.Info
                     )
                 }
@@ -1428,7 +1428,7 @@ fun LocationTab(
                     )
                     Spacer(Modifier.width(12.dp))
                     Text(
-                        "Ajouter un lieu",
+                        stringResource(R.string.add_location),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -1479,13 +1479,13 @@ fun LocationHeaderCard() {
                 Spacer(Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Blocage geographique",
+                        text = stringResource(R.string.geographic_blocking),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = AppColors.OnSurface
                     )
                     Text(
-                        text = "Bloquez vos apps selon votre position",
+                        text = stringResource(R.string.block_by_location),
                         fontSize = 13.sp,
                         color = AppColors.OnSurfaceVariant,
                         lineHeight = 18.sp
@@ -1498,8 +1498,8 @@ fun LocationHeaderCard() {
             mode = "location",
             appsCount = locationAppsCount,
             icon = Icons.Filled.Phone,
-            label = "Applications a bloquer",
-            description = "Configurez les apps bloquees dans ces zones",
+            label = stringResource(R.string.apps_to_block),
+            description = stringResource(R.string.configure_zone_apps),
             color = AppColors.Info
         )
     }
@@ -1535,7 +1535,7 @@ fun LocationZoneCard(
                         color = AppColors.OnSurface
                     )
                     Text(
-                        text = "Rayon: ${zone.radius}m",
+                        text = stringResource(R.string.radius_value_label, zone.radius),
                         fontSize = 13.sp,
                         color = AppColors.OnSurfaceVariant
                     )
@@ -1574,7 +1574,7 @@ fun LocationZoneCard(
             ) {
                 Icon(
                     Icons.Filled.Delete,
-                    contentDescription = "Supprimer",
+                    contentDescription = stringResource(R.string.delete),
                     tint = AppColors.Error,
                     modifier = Modifier.size(20.dp)
                 )
@@ -1599,7 +1599,7 @@ fun PermissionRequiredCard(
             Spacer(Modifier.height(16.dp))
 
             Text(
-                text = "Permission requise",
+                text = stringResource(R.string.location_permission_required),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = AppColors.OnSurface,
@@ -1609,7 +1609,7 @@ fun PermissionRequiredCard(
             Spacer(Modifier.height(8.dp))
 
             Text(
-                text = "Autorisez l'acces a votre position pour utiliser le blocage geographique",
+                text = stringResource(R.string.allow_location_access),
                 fontSize = 14.sp,
                 color = AppColors.OnSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -1624,7 +1624,7 @@ fun PermissionRequiredCard(
             ) {
                 Icon(Icons.Filled.Settings, null)
                 Spacer(Modifier.width(8.dp))
-                Text("Autoriser", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.authorize), fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -1646,15 +1646,15 @@ fun AddLocationDialog(
         onDismissRequest = onDismiss,
         containerColor = AppColors.GlassBgElevated,
         title = {
-            Text("Nouveau lieu", color = AppColors.OnSurface, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.new_location), color = AppColors.OnSurface, fontWeight = FontWeight.Bold)
         },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Nom du lieu") },
-                    placeholder = { Text("Ex: Maison, Bureau, Ecole...") },
+                    label = { Text(stringResource(R.string.location_name)) },
+                    placeholder = { Text(stringResource(R.string.eg_home_office)) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AppColors.Info,
                         focusedLabelColor = AppColors.Info,
@@ -1672,7 +1672,7 @@ fun AddLocationDialog(
                             radius = num.coerceIn(50, 1000)
                         }
                     },
-                    label = { Text("Rayon (metres)") },
+                    label = { Text(stringResource(R.string.radius_meters)) },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AppColors.Info,
                         focusedLabelColor = AppColors.Info,
@@ -1713,8 +1713,8 @@ fun AddLocationDialog(
                         Icon(Icons.Filled.Place, null)
                         Spacer(Modifier.width(8.dp))
                         Text(
-                            if (currentLocation != null) "Position capturee \u2713"
-                            else "Utiliser ma position actuelle"
+                            if (currentLocation != null) stringResource(R.string.location_captured)
+                            else stringResource(R.string.use_current_location)
                         )
                     }
                 }
@@ -1755,12 +1755,12 @@ fun AddLocationDialog(
                     )
                 )
             ) {
-                Text("Ajouter", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.add), fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Annuler", color = AppColors.OnSurface)
+                Text(stringResource(R.string.cancel), color = AppColors.OnSurface)
             }
         }
     )
@@ -1854,7 +1854,7 @@ fun ConfigureAppsButton(
                         color = AppColors.OnSurface
                     )
                     Text(
-                        text = if (appsCount > 0) "$appsCount app(s) configuree(s)" else description,
+                        text = if (appsCount > 0) stringResource(R.string.apps_configured_count, appsCount) else description,
                         fontSize = 12.sp,
                         color = if (appsCount > 0) color else AppColors.OnSurfaceVariant
                     )

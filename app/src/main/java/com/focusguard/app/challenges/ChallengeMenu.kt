@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -123,6 +124,7 @@ fun RedesignedChallengeMenu(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
+        val resources = LocalContext.current.resources
         Spacer(modifier = Modifier.height(40.dp))
 
         GlassIconBadge(
@@ -159,27 +161,27 @@ fun RedesignedChallengeMenu(
         ) {
             RedesignedChallengeCard(
                 icon = Icons.Filled.Favorite,
-                title = "Respiration",
+                title = stringResource(R.string.breathing_title),
                 subtitle = stringResource(R.string.mindfulness_exercise),
-                duration = "${breathingDuration / 60} min",
+                duration = "${breathingDuration / 60} ${resources.getString(R.string.min_abbr)}",
                 accentColor = AppColors.Info,
                 onClick = { onChallengeSelected("breathing") }
             )
 
             RedesignedChallengeCard(
                 icon = Icons.Filled.Star,
-                title = "Sport",
+                title = stringResource(R.string.challenge_sport),
                 subtitle = stringResource(R.string.physical_activity),
-                duration = "$pushupCount pompes",
+                duration = resources.getQuantityString(R.plurals.pushup_count, pushupCount, pushupCount),
                 accentColor = AppColors.Success,
                 onClick = { onChallengeSelected("pushups") }
             )
 
             RedesignedChallengeCard(
                 icon = Icons.Filled.Info,
-                title = "Patience",
+                title = stringResource(R.string.challenge_patience),
                 subtitle = stringResource(R.string.reflection_time),
-                duration = "${waitingDuration / 60} min",
+                duration = "${waitingDuration / 60} ${resources.getString(R.string.min_abbr)}",
                 accentColor = AppColors.Warning,
                 onClick = { onChallengeSelected("waiting") }
             )
@@ -188,7 +190,7 @@ fun RedesignedChallengeMenu(
                 icon = Icons.Filled.Star,
                 title = stringResource(R.string.quiz_general_knowledge),
                 subtitle = stringResource(R.string.test_your_knowledge),
-                duration = "1 question",
+                duration = resources.getQuantityString(R.plurals.question_count, 1, 1),
                 accentColor = AppColors.Info,
                 onClick = { onChallengeSelected("quiz") }
             )
@@ -197,7 +199,7 @@ fun RedesignedChallengeMenu(
                 icon = Icons.Filled.Star,
                 title = stringResource(R.string.mental_calculation),
                 subtitle = stringResource(R.string.mathematical_activity),
-                duration = "1 calcul",
+                duration = resources.getQuantityString(R.plurals.calc_count, 1, 1),
                 accentColor = AppColors.Success,
                 onClick = { onChallengeSelected("math") }
             )
@@ -206,16 +208,16 @@ fun RedesignedChallengeMenu(
                 icon = Icons.Filled.Star,
                 title = stringResource(R.string.logic_puzzle),
                 subtitle = stringResource(R.string.train_your_brain),
-                duration = "1 énigme",
+                duration = resources.getQuantityString(R.plurals.puzzle_count, 1, 1),
                 accentColor = AppColors.Warning,
                 onClick = { onChallengeSelected("puzzle") }
             )
 
             RedesignedChallengeCard(
                 icon = Icons.Filled.Favorite,
-                title = "Méditation",
+                title = stringResource(R.string.meditation),
                 subtitle = stringResource(R.string.guided_relaxation),
-                duration = "1 min",
+                duration = "1 ${resources.getString(R.string.min_abbr)}",
                 accentColor = AppColors.Primary,
                 onClick = { onChallengeSelected("meditation") }
             )

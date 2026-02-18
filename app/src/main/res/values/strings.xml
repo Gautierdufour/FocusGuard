@@ -258,4 +258,43 @@
     <string name="allow_location_access">Allow access to your location to use geographic blocking</string>
     <string name="configure_zone_apps">Configure apps blocked in these zones</string>
     <string name="radius_label">Radius:</string>
+
+    <!-- Settings — format labels -->
+    <string name="duration_label">Duration</string>
+    <string name="min_abbr">min</string>
+    <string name="pushup_label">Pushups</string>
+    <string name="block_suffix">blocks</string>
+
+    <!-- Challenge titles (standalone) -->
+    <string name="challenge_sport">Sport</string>
+    <string name="challenge_patience">Patience</string>
+
+    <!-- Smart Planning — new strings -->
+    <string name="focus_mode_subtitle">Focus without distractions</string>
+    <string name="custom_session">Custom session</string>
+    <string name="ends_in_minutes">Ends in %d min</string>
+    <string name="system_will_pause_for_minutes">System will be paused for %d min</string>
+    <string name="radius_value_label">Radius: %dm</string>
+    <string name="apps_configured_count">%d app(s) configured</string>
+    <string name="location_permission_toast">Location permission required for zone-based blocking</string>
+
+    <!-- Plurals -->
+    <plurals name="pushup_count">
+        <item quantity="one">%d pushup</item>
+        <item quantity="other">%d pushups</item>
+    </plurals>
+    <plurals name="question_count">
+        <item quantity="one">%d question</item>
+        <item quantity="other">%d questions</item>
+    </plurals>
+    <plurals name="calc_count">
+        <item quantity="one">%d calculation</item>
+        <item quantity="other">%d calculations</item>
+    </plurals>
+    <plurals name="puzzle_count">
+        <item quantity="one">%d puzzle</item>
+        <item quantity="other">%d puzzles</item>
+    </plurals>
 </resources>
+
+

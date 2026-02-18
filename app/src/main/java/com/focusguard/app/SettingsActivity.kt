@@ -44,6 +44,7 @@ class SettingsActivity : ComponentActivity() {
 @Composable
 fun DarkSettingsScreen(onBack: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
+    val resources = context.resources
 
     var accessDuration by remember { mutableStateOf(AppPreferences.getAccessDuration(context)) }
     var pushupCount by remember { mutableStateOf(AppPreferences.getPushupCount(context)) }
@@ -113,10 +114,10 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                     accentColor = AppColors.Primary
                 ) {
                     DarkPresetSelector(
-                        label = "Durée",
+                        label = stringResource(R.string.duration_label),
                         value = accessDuration,
                         options = PresetDurations.ACCESS_DURATIONS,
-                        formatValue = { "$it min" },
+                        formatValue = { "${it} ${resources.getString(R.string.min_abbr)}" },
                         onValueChange = {
                             accessDuration = it
                             AppPreferences.setAccessDuration(context, it)
@@ -138,7 +139,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             label = stringResource(R.string.pushups_required),
                             value = pushupCount,
                             options = PresetDurations.PUSHUP_COUNTS,
-                            formatValue = { "$it pompes" },
+                            formatValue = { resources.getQuantityString(R.plurals.pushup_count, it, it) },
                             onValueChange = {
                                 pushupCount = it
                                 AppPreferences.setPushupCount(context, it)
@@ -185,7 +186,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             label = stringResource(R.string.quiz_questions),
                             value = quizCount,
                             options = PresetDurations.QUIZ_COUNTS,
-                            formatValue = { "$it question${if (it > 1) "s" else ""}" },
+                            formatValue = { resources.getQuantityString(R.plurals.question_count, it, it) },
                             onValueChange = {
                                 quizCount = it
                                 AppPreferences.setQuizCount(context, it)
@@ -197,7 +198,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             label = stringResource(R.string.math_calculations),
                             value = mathCount,
                             options = PresetDurations.MATH_COUNTS,
-                            formatValue = { "$it calcul${if (it > 1) "s" else ""}" },
+                            formatValue = { resources.getQuantityString(R.plurals.calc_count, it, it) },
                             onValueChange = {
                                 mathCount = it
                                 AppPreferences.setMathCount(context, it)
@@ -209,7 +210,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
                             label = stringResource(R.string.logic_puzzles),
                             value = puzzleCount,
                             options = PresetDurations.PUZZLE_COUNTS,
-                            formatValue = { "$it puzzle${if (it > 1) "s" else ""}" },
+                            formatValue = { resources.getQuantityString(R.plurals.puzzle_count, it, it) },
                             onValueChange = {
                                 puzzleCount = it
                                 AppPreferences.setPuzzleCount(context, it)
@@ -524,6 +525,7 @@ fun DarkSummaryCard(
     meditationDuration: Int,
     dailyGoal: Int
 ) {
+    val resources = androidx.compose.ui.platform.LocalContext.current.resources
     GlassCard(accentColor = AppColors.Success) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -547,15 +549,15 @@ fun DarkSummaryCard(
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            DarkSummaryItem(stringResource(R.string.access_after_challenge), "$accessDuration min", AppColors.Primary)
-            DarkSummaryItem("Pompes", "$pushupCount", AppColors.Success)
+            DarkSummaryItem(stringResource(R.string.access_after_challenge), "$accessDuration ${resources.getString(R.string.min_abbr)}", AppColors.Primary)
+            DarkSummaryItem(stringResource(R.string.pushup_label), resources.getQuantityString(R.plurals.pushup_count, pushupCount, pushupCount), AppColors.Success)
             DarkSummaryItem(stringResource(R.string.waiting), PresetDurations.formatDuration(waitingDuration), AppColors.Warning)
             DarkSummaryItem(stringResource(R.string.breathing), PresetDurations.formatDuration(breathingDuration), AppColors.Info)
-            DarkSummaryItem(stringResource(R.string.quiz_label), "$quizCount question${if (quizCount > 1) "s" else ""}", AppColors.Info)
-            DarkSummaryItem(stringResource(R.string.math_label), "$mathCount calcul${if (mathCount > 1) "s" else ""}", AppColors.Success)
-            DarkSummaryItem(stringResource(R.string.puzzles), "$puzzleCount", AppColors.Warning)
+            DarkSummaryItem(stringResource(R.string.quiz_label), resources.getQuantityString(R.plurals.question_count, quizCount, quizCount), AppColors.Info)
+            DarkSummaryItem(stringResource(R.string.math_label), resources.getQuantityString(R.plurals.calc_count, mathCount, mathCount), AppColors.Success)
+            DarkSummaryItem(stringResource(R.string.puzzles), resources.getQuantityString(R.plurals.puzzle_count, puzzleCount, puzzleCount), AppColors.Warning)
             DarkSummaryItem(stringResource(R.string.meditation), PresetDurations.formatDuration(meditationDuration), AppColors.Primary)
-            DarkSummaryItem(stringResource(R.string.daily_goal), "$dailyGoal blocages", AppColors.Accent)
+            DarkSummaryItem(stringResource(R.string.daily_goal), "$dailyGoal ${resources.getString(R.string.block_suffix)}", AppColors.Accent)
         }
     }
 }
