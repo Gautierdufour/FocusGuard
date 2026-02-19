@@ -18,7 +18,7 @@ import com.focusguard.app.AppColors
 import com.focusguard.app.GamificationManager
 
 @Composable
-fun DarkGamificationCard() {
+fun DarkGamificationCard(refreshTick: Int = 0) {
     val context = LocalContext.current
     val level = GamificationManager.getCurrentLevel(context)
     val xp = GamificationManager.getTotalXP(context)

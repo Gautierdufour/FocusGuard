@@ -52,6 +52,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _dailyGoal = MutableStateFlow(AppPreferences.getDailyGoal(context))
     val dailyGoal: StateFlow<Int> = _dailyGoal.asStateFlow()
 
+    /** Compteur incrémenté à chaque refreshState() pour forcer la recomposition */
+    private val _refreshTick = MutableStateFlow(0)
+    val refreshTick: StateFlow<Int> = _refreshTick.asStateFlow()
+
     init {
         refreshState()
         // Lancer la migration SharedPreferences -> Room au premier démarrage
@@ -69,6 +73,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _serviceRunning.value = isServiceRunning(context)
         _batteryOptimized.value = isBatteryOptimized(context)
         _dailyGoal.value = AppPreferences.getDailyGoal(context)
+        _refreshTick.value++
     }
 
     private fun reloadSelectedApps() {

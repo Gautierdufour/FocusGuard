@@ -20,8 +20,15 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -34,9 +41,20 @@ import com.focusguard.app.R
 
 @Composable
 fun DarkPermissionsCard(context: Context) {
-    val hasUsageStats = remember { hasUsageStatsPermission(context) }
-    val hasOverlay = remember { Settings.canDrawOverlays(context) }
-    val isBatteryOptimized = remember { isBatteryOptimized(context) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    var refreshTick by remember { mutableStateOf(0) }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) refreshTick++
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
+    val hasUsageStats = remember(refreshTick) { hasUsageStatsPermission(context) }
+    val hasOverlay = remember(refreshTick) { Settings.canDrawOverlays(context) }
+    val isBatteryOptimized = remember(refreshTick) { isBatteryOptimized(context) }
     val allGranted = hasUsageStats && hasOverlay && !isBatteryOptimized
 
     GlassCard(accentColor = if (allGranted) AppColors.Success else AppColors.Secondary) {

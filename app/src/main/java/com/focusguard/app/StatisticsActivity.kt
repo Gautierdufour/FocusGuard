@@ -34,6 +34,8 @@ import com.focusguard.app.ui.theme.FocusGuardTheme
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 
 data class AppStats(
     val packageName: String,
@@ -105,6 +107,15 @@ fun DarkStatisticsScreen(onBack: () -> Unit) {
 
     LaunchedEffect(Unit) {
         loadStats()
+    }
+
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) loadStats()
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     Scaffold(

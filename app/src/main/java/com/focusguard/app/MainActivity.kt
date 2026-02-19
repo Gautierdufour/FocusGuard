@@ -53,6 +53,7 @@ fun DarkHomeScreen(viewModel: MainViewModel = viewModel()) {
     val selectedApps by viewModel.selectedApps.collectAsStateWithLifecycle()
     val todayBlockCount by viewModel.todayBlockCount.collectAsStateWithLifecycle()
     val dailyGoal by viewModel.dailyGoal.collectAsStateWithLifecycle()
+    val refreshTick by viewModel.refreshTick.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.cleanupInvalidPreferences()
@@ -120,7 +121,7 @@ fun DarkHomeScreen(viewModel: MainViewModel = viewModel()) {
 
             item { DarkHeroCard() }
 
-            item { DarkGamificationCard() }
+            item { DarkGamificationCard(refreshTick) }
 
             item { DailyGoalCard(todayBlocks = todayBlockCount, dailyGoal = dailyGoal) }
 
