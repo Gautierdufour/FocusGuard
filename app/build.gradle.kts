@@ -25,14 +25,19 @@ android {
         }
     }
 
-    signingConfigs {
-        create("release") {
-            val props = Properties()
-            props.load(rootProject.file("local.properties").inputStream())
-            storeFile = file(props["KEYSTORE_PATH"].toString())
-            storePassword = props["KEYSTORE_PASS"].toString()
-            keyAlias = props["KEY_ALIAS"].toString()
-            keyPassword = props["KEY_PASS"].toString()
+    val localProps = Properties()
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) localProps.load(localPropsFile.inputStream())
+    val hasKeystore = localProps["KEYSTORE_PATH"] != null
+
+    if (hasKeystore) {
+        signingConfigs {
+            create("release") {
+                storeFile = file(localProps["KEYSTORE_PATH"].toString())
+                storePassword = localProps["KEYSTORE_PASS"].toString()
+                keyAlias = localProps["KEY_ALIAS"].toString()
+                keyPassword = localProps["KEY_PASS"].toString()
+            }
         }
     }
 
@@ -44,7 +49,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            if (hasKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
