@@ -353,7 +353,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
     if (showResetDialog) {
         AlertDialog(
             onDismissRequest = { showResetDialog = false },
-            containerColor = AppColors.GlassBgElevated,
+            containerColor = AppColors.SurfaceElevated,
             icon = {
                 Icon(
                     imageVector = Icons.Filled.Warning,

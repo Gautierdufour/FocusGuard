@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.focusguard.app.R
 import com.focusguard.app.AppColors
+import com.focusguard.app.PresetDurations
 import com.focusguard.app.MathChallenge
 import com.focusguard.app.MeditationChallenge
 import com.focusguard.app.PuzzleChallenge
@@ -182,7 +183,7 @@ fun RedesignedChallengeMenu(
                 icon = Icons.Filled.Info,
                 title = stringResource(R.string.challenge_patience),
                 subtitle = stringResource(R.string.reflection_time),
-                duration = "${waitingDuration / 60} ${resources.getString(R.string.min_abbr)}",
+                duration = PresetDurations.formatDuration(waitingDuration),
                 accentColor = AppColors.Warning,
                 onClick = { onChallengeSelected("waiting") }
             )
@@ -253,7 +254,6 @@ fun RedesignedChallengeCard(
     onClick: () -> Unit
 ) {
     GlassCard(
-        modifier = Modifier.heightIn(min = 88.dp),
         accentColor = accentColor,
         onClick = onClick
     ) {
@@ -283,7 +283,7 @@ fun RedesignedChallengeCard(
                     text = subtitle,
                     fontSize = 12.sp,
                     color = AppColors.OnSurfaceVariant,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
             }
