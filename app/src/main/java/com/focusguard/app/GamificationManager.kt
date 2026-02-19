@@ -274,22 +274,23 @@ object GamificationManager {
         return getPrefs(context).getStringSet(KEY_UNLOCKED_BADGES, emptySet()) ?: emptySet()
     }
     
-    suspend fun checkNewBadges(context: Context) {
+    suspend fun checkNewBadges(context: Context): List<Badge> {
         val unlocked = getUnlockedBadges(context).toMutableSet()
-        var hasNewBadge = false
+        val newBadges = mutableListOf<Badge>()
 
         ALL_BADGES.forEach { badge ->
             if (!unlocked.contains(badge.id) && badge.requirement(context)) {
                 unlocked.add(badge.id)
-                hasNewBadge = true
+                newBadges.add(badge)
             }
         }
 
-        if (hasNewBadge) {
+        if (newBadges.isNotEmpty()) {
             getPrefs(context).edit()
                 .putStringSet(KEY_UNLOCKED_BADGES, unlocked)
                 .apply()
         }
+        return newBadges
     }
     
     fun getUnlockedBadgesList(context: Context): List<Badge> {

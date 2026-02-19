@@ -281,11 +281,29 @@
     <string name="settings_saved">Enregistré ✓</string>
     <string name="permission_granted">Accordée</string>
     <string name="permission_required_action">Requise — appuyez pour accorder</string>
+    <string name="battery_optimization">Optimisation batterie</string>
+    <string name="battery_optimization_action">Appuyer pour exempter FocusGuard</string>
+    <string name="sort_az">A → Z</string>
+    <string name="sort_za">Z → A</string>
+    <string name="sort_selected_first">Sélectionnées d'abord</string>
+    <string name="sort_default">Par défaut</string>
+    <string name="sort_label">Trier</string>
+    <string name="no_proximity_sensor_fallback">Capteur absent — mode manuel activé</string>
     <string name="onboarding_ready_title">Vous êtes prêt !</string>
     <string name="onboarding_ready_subtitle">Construisons de meilleures habitudes ensemble</string>
     <string name="hero_step_block">Bloquer</string>
     <string name="hero_step_challenge">Défi</string>
     <string name="hero_step_level_up">Progresser</string>
+
+    <!-- Carte objectif quotidien -->
+    <string name="daily_goal_card_title">Objectif du jour</string>
+    <string name="daily_goal_progress">%1$d/%2$d blocages</string>
+    <string name="daily_goal_reached">Objectif atteint ! 🎉</string>
+
+    <!-- Montée de niveau & Badges -->
+    <string name="level_up_title">Niveau %d !</string>
+    <string name="badge_unlocked_title">Badge débloqué !</string>
+    <string name="badge_continue">Super !</string>
 
     <!-- Pluriels -->
     <plurals name="pushup_count">

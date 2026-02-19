@@ -29,6 +29,9 @@ class PushupDetector(context: Context) : SensorEventListener {
     private val _isDetecting = MutableStateFlow(false)
     val isDetecting: StateFlow<Boolean> = _isDetecting
 
+    /** False si le capteur de proximité est absent sur cet appareil */
+    val sensorAvailable: Boolean = proximitySensor != null
+
     private val _feedbackMessage = MutableStateFlow("Placez le téléphone au sol, capteur vers le haut")
     val feedbackMessage: StateFlow<String> = _feedbackMessage
 
@@ -76,7 +79,7 @@ class PushupDetector(context: Context) : SensorEventListener {
         sensorManager.registerListener(
             this,
             proximitySensor,
-            SensorManager.SENSOR_DELAY_GAME
+            SensorManager.SENSOR_DELAY_NORMAL
         )
 
         _isDetecting.value = true

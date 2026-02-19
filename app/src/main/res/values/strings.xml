@@ -281,11 +281,29 @@
     <string name="settings_saved">Saved ✓</string>
     <string name="permission_granted">Granted</string>
     <string name="permission_required_action">Required — tap to grant</string>
+    <string name="battery_optimization">Battery optimization</string>
+    <string name="battery_optimization_action">Tap to exempt FocusGuard</string>
+    <string name="sort_az">A → Z</string>
+    <string name="sort_za">Z → A</string>
+    <string name="sort_selected_first">Selected first</string>
+    <string name="sort_default">Default</string>
+    <string name="sort_label">Sort</string>
+    <string name="no_proximity_sensor_fallback">No proximity sensor — manual mode activated</string>
     <string name="onboarding_ready_title">You\'re all set!</string>
     <string name="onboarding_ready_subtitle">Let\'s build better habits together</string>
     <string name="hero_step_block">Block</string>
     <string name="hero_step_challenge">Challenge</string>
     <string name="hero_step_level_up">Level up</string>
+
+    <!-- Daily Goal Card -->
+    <string name="daily_goal_card_title">Daily goal</string>
+    <string name="daily_goal_progress">%1$d/%2$d blocks</string>
+    <string name="daily_goal_reached">Goal reached! 🎉</string>
+
+    <!-- Level-up & Badges -->
+    <string name="level_up_title">Level %d!</string>
+    <string name="badge_unlocked_title">Badge unlocked!</string>
+    <string name="badge_continue">Great!</string>
 
     <!-- Plurals -->
     <plurals name="pushup_count">

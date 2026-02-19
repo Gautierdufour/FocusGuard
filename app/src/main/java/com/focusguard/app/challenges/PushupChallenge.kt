@@ -94,10 +94,20 @@ fun UniversalPushupChallenge(
         }
     }
 
+    // Si AUTO sélectionné mais capteur absent → basculer en mode manuel automatiquement
+    val effectiveMethod = if (method == PushupMethod.AUTO &&
+        detector is PushupDetector && !detector.sensorAvailable) {
+        PushupMethod.MANUAL
+    } else {
+        method
+    }
+
+    val noSensorFallback = effectiveMethod != method
+
     var manualCount by remember { mutableStateOf(0) }
     var showDebug by remember { mutableStateOf(false) }
 
-    val pushUpCount = when (method) {
+    val pushUpCount = when (effectiveMethod) {
         PushupMethod.MANUAL -> manualCount
         PushupMethod.AUTO -> detector?.let { (it as PushupDetector).pushupCount.collectAsState().value } ?: 0
         PushupMethod.HYBRID -> detector?.let { (it as HybridPushupDetector).pushupCount.collectAsState().value } ?: 0
@@ -105,24 +115,24 @@ fun UniversalPushupChallenge(
         PushupMethod.SHAKE -> detector?.let { (it as ShakePushupDetector).pushupCount.collectAsState().value } ?: 0
     }
 
-    val feedbackMessage = if (method == PushupMethod.AUTO) {
+    val feedbackMessage = if (effectiveMethod == PushupMethod.AUTO) {
         (detector as? PushupDetector)?.feedbackMessage?.collectAsState()?.value ?: ""
     } else ""
 
-    val currentPhase = if (method == PushupMethod.AUTO) {
+    val currentPhase = if (effectiveMethod == PushupMethod.AUTO) {
         (detector as? PushupDetector)?.currentPhase?.collectAsState()?.value ?: "REPOS"
     } else "N/A"
 
-    val zAxisValue = if (method == PushupMethod.AUTO) {
+    val zAxisValue = if (effectiveMethod == PushupMethod.AUTO) {
         (detector as? PushupDetector)?.zAxisValue?.collectAsState()?.value ?: 0f
     } else 0f
 
-    val confidence = if (method == PushupMethod.HYBRID) {
+    val confidence = if (effectiveMethod == PushupMethod.HYBRID) {
         (detector as? HybridPushupDetector)?.confidence?.collectAsState()?.value ?: 0
     } else 100
 
-    LaunchedEffect(method) {
-        when (method) {
+    LaunchedEffect(effectiveMethod) {
+        when (effectiveMethod) {
             PushupMethod.AUTO -> (detector as? PushupDetector)?.start()
             PushupMethod.HYBRID -> (detector as? HybridPushupDetector)?.start()
             PushupMethod.PROXIMITY -> (detector as? ProximityPushupDetector)?.start()
@@ -133,7 +143,7 @@ fun UniversalPushupChallenge(
 
     DisposableEffect(Unit) {
         onDispose {
-            when (method) {
+            when (effectiveMethod) {
                 PushupMethod.AUTO -> (detector as? PushupDetector)?.stop()
                 PushupMethod.HYBRID -> (detector as? HybridPushupDetector)?.stop()
                 PushupMethod.PROXIMITY -> (detector as? ProximityPushupDetector)?.stop()
@@ -172,12 +182,15 @@ fun UniversalPushupChallenge(
             modifier = Modifier.padding(top = 4.dp)
         ) {
             Text(
-                text = getMethodDisplayName(method),
+                text = if (noSensorFallback)
+                    stringResource(R.string.no_proximity_sensor_fallback)
+                else
+                    getMethodDisplayName(effectiveMethod),
                 fontSize = 13.sp,
-                color = AppColors.OnSurfaceVariant
+                color = if (noSensorFallback) AppColors.Warning else AppColors.OnSurfaceVariant
             )
 
-            if (method == PushupMethod.AUTO) {
+            if (effectiveMethod == PushupMethod.AUTO) {
                 Spacer(modifier = Modifier.width(12.dp))
                 Switch(
                     checked = showDebug,
@@ -198,12 +211,12 @@ fun UniversalPushupChallenge(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (!isComplete && method != PushupMethod.MANUAL) {
-            PushupInstructions(method)
+        if (!isComplete && effectiveMethod != PushupMethod.MANUAL) {
+            PushupInstructions(effectiveMethod)
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        if (method == PushupMethod.AUTO && showDebug && !isComplete) {
+        if (effectiveMethod == PushupMethod.AUTO && showDebug && !isComplete) {
             DebugInfoCard(
                 phase = currentPhase,
                 zValue = zAxisValue
@@ -247,7 +260,7 @@ fun UniversalPushupChallenge(
                     PhaseIndicator(currentPhase)
                 }
 
-                if (method == PushupMethod.HYBRID && !isComplete && confidence > 0) {
+                if (effectiveMethod == PushupMethod.HYBRID && !isComplete && confidence > 0) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "${stringResource(R.string.confidence_label)} $confidence%",
@@ -265,7 +278,7 @@ fun UniversalPushupChallenge(
         Spacer(modifier = Modifier.height(24.dp))
 
         if (!isComplete) {
-            when (method) {
+            when (effectiveMethod) {
                 PushupMethod.AUTO -> {
                     if (feedbackMessage.isNotEmpty()) {
                         GlassCard(

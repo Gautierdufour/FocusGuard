@@ -8,9 +8,19 @@ import com.focusguard.app.AppPreferences
 import com.focusguard.app.GamificationManager
 import com.focusguard.app.data.StatsRepository
 import com.focusguard.app.utils.AppDisplayNames
+import androidx.glance.appwidget.updateAll
+import com.focusguard.app.widget.FocusGuardWidget
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+data class ChallengeResult(
+    val newLevel: Int?,
+    val newBadges: List<GamificationManager.Badge>
+)
 
 class LockViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,6 +29,13 @@ class LockViewModel(application: Application) : AndroidViewModel(application) {
         context.getSharedPreferences("lock", Context.MODE_PRIVATE)
     }
     private val statsRepository by lazy { StatsRepository.getInstance(context) }
+
+    private val _challengeResult = MutableStateFlow<ChallengeResult?>(null)
+    val challengeResult: StateFlow<ChallengeResult?> = _challengeResult.asStateFlow()
+
+    fun clearChallengeResult() {
+        _challengeResult.value = null
+    }
 
     fun getAppDisplayName(packageName: String): String {
         return AppDisplayNames.getDisplayName(context, packageName)
@@ -35,10 +52,10 @@ class LockViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * Records challenge completion, awards XP, updates streak.
-     * Returns the new level (or null if no level up).
+     * Enregistre la complétion d'un défi, attribue l'XP et met à jour le streak.
+     * Le résultat (montée de niveau + badges) est exposé via challengeResult.
      */
-    fun recordChallengeCompleted(challengeType: String, packageName: String): Int? {
+    fun recordChallengeCompleted(challengeType: String, packageName: String) {
         val levelBefore = GamificationManager.getCurrentLevel(context)
 
         val timeSavedMinutes = when (challengeType) {
@@ -61,24 +78,32 @@ class LockViewModel(application: Application) : AndroidViewModel(application) {
         GamificationManager.addXP(context, xpAmount)
         GamificationManager.updateStreak(context)
 
+        val levelAfter = GamificationManager.getCurrentLevel(context)
+        val newLevel = if (levelAfter > levelBefore) levelAfter else null
+
         viewModelScope.launch {
             try {
                 statsRepository.recordChallenge(challengeType, packageName, xpAmount, timeSavedMinutes)
             } catch (e: Exception) {
                 android.util.Log.e("LockViewModel", "Erreur Room recordChallenge", e)
             }
-            // Vérification des badges en background (évite runBlocking sur UI)
-            withContext(Dispatchers.IO) {
+            val newBadges = withContext(Dispatchers.IO) {
                 try {
                     GamificationManager.checkNewBadges(context)
                 } catch (e: Exception) {
                     android.util.Log.e("LockViewModel", "Erreur checkNewBadges", e)
+                    emptyList()
                 }
             }
-        }
+            _challengeResult.value = ChallengeResult(newLevel, newBadges)
 
-        val levelAfter = GamificationManager.getCurrentLevel(context)
-        return if (levelAfter > levelBefore) levelAfter else null
+            // Mettre à jour le widget après le défi
+            try {
+                FocusGuardWidget().updateAll(context)
+            } catch (e: Exception) {
+                android.util.Log.e("LockViewModel", "Erreur mise à jour widget", e)
+            }
+        }
     }
 
     fun grantTemporaryAccess(packageName: String) {

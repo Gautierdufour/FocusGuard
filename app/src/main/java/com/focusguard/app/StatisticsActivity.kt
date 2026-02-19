@@ -700,62 +700,70 @@ fun DarkWeeklyGraphCard(weeklyStats: List<DailyStats>) {
             )
         }
 
+        // Zone des barres : hauteur fixe avec zone de barres isolée du texte
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.Bottom
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             weeklyStats.forEach { day ->
+                val barHeightFraction = if (maxBlocks > 0) {
+                    (day.blocksCount.toFloat() / maxBlocks.toFloat()).coerceIn(0f, 1f)
+                } else 0f
+                val maxBarDp = 90.dp
+
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.weight(1f)
                 ) {
-                    if (day.blocksCount > 0) {
-                        Text(
-                            text = day.blocksCount.toString(),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = AppColors.Success,
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
-
-                    val barHeight = if (maxBlocks > 0) {
-                        ((day.blocksCount.toFloat() / maxBlocks.toFloat()) * 100).coerceAtLeast(if (day.blocksCount > 0) 10f else 0f)
-                    } else 0f
-
-                    Box(
-                        modifier = Modifier
-                            .width(32.dp)
-                            .height((barHeight * 1.2f).dp)
-                            .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
-                            .background(
-                                if (day.blocksCount > 0) {
-                                    AppColors.Success.copy(alpha = 0.25f)
-                                } else {
-                                    AppColors.GlassBgSubtle
-                                }
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = if (day.blocksCount > 0)
-                                    AppColors.Success.copy(alpha = 0.4f)
-                                else
-                                    AppColors.GlassBorderLight,
-                                shape = RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp)
-                            )
+                    // Texte du compteur (toujours présent pour réserver l'espace)
+                    Text(
+                        text = if (day.blocksCount > 0) day.blocksCount.toString() else "",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = AppColors.Success,
+                        modifier = Modifier.height(16.dp)
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
+                    // Zone barre : hauteur fixe, barre alignée en bas
+                    Box(
+                        modifier = Modifier
+                            .width(28.dp)
+                            .height(maxBarDp),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        val barH = (barHeightFraction * maxBarDp.value).coerceAtLeast(
+                            if (day.blocksCount > 0) 6f else 0f
+                        ).dp
+                        Box(
+                            modifier = Modifier
+                                .width(28.dp)
+                                .height(barH)
+                                .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
+                                .background(
+                                    if (day.blocksCount > 0)
+                                        AppColors.Success.copy(alpha = 0.25f)
+                                    else
+                                        AppColors.GlassBgSubtle
+                                )
+                                .border(
+                                    width = 1.dp,
+                                    color = if (day.blocksCount > 0)
+                                        AppColors.Success.copy(alpha = 0.4f)
+                                    else
+                                        AppColors.GlassBorderLight,
+                                    shape = RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp)
+                                )
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    // Libellé du jour
                     Text(
                         text = day.displayDate,
-                        fontSize = 11.sp,
+                        fontSize = 10.sp,
                         color = if (day.blocksCount > 0)
                             AppColors.OnSurface
                         else

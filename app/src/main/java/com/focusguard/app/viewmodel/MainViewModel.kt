@@ -6,15 +6,20 @@ import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.focusguard.app.AppPreferences
 import com.focusguard.app.MonitorService
 import com.focusguard.app.ServiceWatchdog
 import com.focusguard.app.data.StatsRepository
 import com.focusguard.app.utils.hasUsageStatsPermission
 import com.focusguard.app.utils.isBatteryOptimized
 import com.focusguard.app.utils.isServiceRunning
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -29,6 +34,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val selectedApps: StateFlow<Set<String>> = _selectedApps.asStateFlow()
 
     private val context: Context get() = getApplication()
+    private val statsRepository by lazy { StatsRepository.getInstance(context) }
+
+    /** Nombre de blocages aujourd'hui — rafraîchi toutes les 30s */
+    val todayBlockCount: StateFlow<Int> = flow {
+        while (true) {
+            try {
+                emit(statsRepository.getTodayBlocks())
+            } catch (e: Exception) {
+                emit(0)
+            }
+            delay(30_000)
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    /** Objectif quotidien configuré — rafraîchi à chaque refreshState() */
+    private val _dailyGoal = MutableStateFlow(AppPreferences.getDailyGoal(context))
+    val dailyGoal: StateFlow<Int> = _dailyGoal.asStateFlow()
 
     init {
         refreshState()
@@ -46,6 +68,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         reloadSelectedApps()
         _serviceRunning.value = isServiceRunning(context)
         _batteryOptimized.value = isBatteryOptimized(context)
+        _dailyGoal.value = AppPreferences.getDailyGoal(context)
     }
 
     private fun reloadSelectedApps() {

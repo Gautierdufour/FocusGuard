@@ -25,12 +25,16 @@ class MonitorService : Service() {
         private const val FOREGROUND_NOTIFICATION_ID = 2
         private const val ALERT_CHANNEL_ID = "app_blocker_alerts"
 
+        // Action pour recharger la liste d'apps sans redémarrer le service
+        const val ACTION_REFRESH_BLOCKED_APPS = "com.focusguard.app.REFRESH_BLOCKED_APPS"
+
         // Intervalles de monitoring
         private const val MONITOR_INTERVAL_MS = 500L
         private const val MONITOR_ERROR_INTERVAL_MS = 2000L
         private const val MONITOR_PAUSE_ON_ERRORS_MS = 30_000L
         private const val MAX_CONSECUTIVE_ERRORS = 10
         private const val USAGE_EVENTS_WINDOW_MS = 3000L
+        private const val MONITOR_WAIT_FOR_APPS_MS = 3000L // Attente si aucune app sélectionnée
 
         // Wake lock
         private const val WAKE_LOCK_TIMEOUT_MS = 10 * 60 * 1000L // 10 minutes
@@ -69,14 +73,24 @@ class MonitorService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(TAG, "Service démarré avec commande")
+        Log.d(TAG, "Service démarré avec commande: ${intent?.action}")
 
         // Recharger les apps sélectionnées
         loadSelectedApps()
 
-        // Démarrer la surveillance si pas déjà active
-        if (!isMonitoring) {
-            startMonitoring()
+        if (intent?.action == ACTION_REFRESH_BLOCKED_APPS) {
+            // Rafraîchissement explicite : s'assurer que le monitoring tourne
+            Log.d(TAG, "🔄 Rafraîchissement de la liste d'apps: ${blockedApps.size} apps")
+            // Le polling loop dans monitorApps() détectera automatiquement le changement
+            // Si monitoring n'est pas actif (stopMonitoring() appelé), on le redémarre
+            if (!isMonitoring) {
+                startMonitoring()
+            }
+        } else {
+            // Démarrer la surveillance si pas déjà active
+            if (!isMonitoring) {
+                startMonitoring()
+            }
         }
 
         // START_STICKY garantit que le service sera redémarré si Android le tue
@@ -405,10 +419,13 @@ class MonitorService : Service() {
             return
         }
 
-        if (blockedApps.isEmpty()) {
-            Log.w(TAG, "⚠️ Aucune application à surveiller - Service en attente")
-            return
+        // Attendre si aucune app n'est sélectionnée (polling sans sortir)
+        while (isMonitoring && scope.isActive && blockedApps.isEmpty()) {
+            Log.d(TAG, "⏳ En attente d'apps à surveiller...")
+            delay(MONITOR_WAIT_FOR_APPS_MS)
         }
+
+        if (!isMonitoring || !scope.isActive) return
 
         val usageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         var lastForegroundApp: String? = null

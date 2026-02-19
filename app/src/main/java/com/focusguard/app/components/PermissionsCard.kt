@@ -4,6 +4,8 @@ import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.os.PowerManager
 import android.os.Process
 import android.provider.Settings
 import androidx.compose.foundation.background
@@ -34,7 +36,8 @@ import com.focusguard.app.R
 fun DarkPermissionsCard(context: Context) {
     val hasUsageStats = remember { hasUsageStatsPermission(context) }
     val hasOverlay = remember { Settings.canDrawOverlays(context) }
-    val allGranted = hasUsageStats && hasOverlay
+    val isBatteryOptimized = remember { isBatteryOptimized(context) }
+    val allGranted = hasUsageStats && hasOverlay && !isBatteryOptimized
 
     GlassCard(accentColor = if (allGranted) AppColors.Success else AppColors.Secondary) {
         Text(
@@ -69,6 +72,24 @@ fun DarkPermissionsCard(context: Context) {
                 context.startActivity(intent)
             }
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        DarkPermissionItem(
+            icon = Icons.Filled.Warning,
+            title = stringResource(R.string.battery_optimization),
+            isGranted = !isBatteryOptimized,
+            actionText = stringResource(R.string.battery_optimization_action),
+            onClick = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val intent = Intent(
+                        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                        Uri.parse("package:${context.packageName}")
+                    )
+                    context.startActivity(intent)
+                }
+            }
+        )
     }
 }
 
@@ -77,6 +98,7 @@ fun DarkPermissionItem(
     icon: ImageVector,
     title: String,
     isGranted: Boolean,
+    actionText: String = stringResource(R.string.permission_required_action),
     onClick: () -> Unit
 ) {
     val accentColor = if (isGranted) AppColors.Success else AppColors.Warning
@@ -128,7 +150,7 @@ fun DarkPermissionItem(
                 Column(modifier = Modifier.weight(1f)) {
                     Text(title, color = AppColors.OnSurface, fontSize = 14.sp)
                     Text(
-                        text = stringResource(R.string.permission_required_action),
+                        text = actionText,
                         fontSize = 11.sp,
                         color = AppColors.Warning
                     )
@@ -147,4 +169,10 @@ private fun hasUsageStatsPermission(context: Context): Boolean {
         context.packageName
     )
     return mode == AppOpsManager.MODE_ALLOWED
+}
+
+private fun isBatteryOptimized(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
+    val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+    return !pm.isIgnoringBatteryOptimizations(context.packageName)
 }

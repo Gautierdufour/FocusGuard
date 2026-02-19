@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
@@ -47,9 +48,11 @@ fun DarkHomeScreen(viewModel: MainViewModel = viewModel()) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val serviceRunning by viewModel.serviceRunning.collectAsState()
-    val batteryOptimized by viewModel.batteryOptimized.collectAsState()
-    val selectedApps by viewModel.selectedApps.collectAsState()
+    val serviceRunning by viewModel.serviceRunning.collectAsStateWithLifecycle()
+    val batteryOptimized by viewModel.batteryOptimized.collectAsStateWithLifecycle()
+    val selectedApps by viewModel.selectedApps.collectAsStateWithLifecycle()
+    val todayBlockCount by viewModel.todayBlockCount.collectAsStateWithLifecycle()
+    val dailyGoal by viewModel.dailyGoal.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.cleanupInvalidPreferences()
@@ -118,6 +121,8 @@ fun DarkHomeScreen(viewModel: MainViewModel = viewModel()) {
             item { DarkHeroCard() }
 
             item { DarkGamificationCard() }
+
+            item { DailyGoalCard(todayBlocks = todayBlockCount, dailyGoal = dailyGoal) }
 
             item {
                 DarkAppsCard(

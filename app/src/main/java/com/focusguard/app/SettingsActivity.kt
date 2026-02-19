@@ -371,7 +371,7 @@ fun DarkSettingsScreen(onBack: () -> Unit) {
             text = {
                 Text(
                     stringResource(R.string.reset_settings_message),
-                    color = AppColors.OnSurfaceVariant
+                    color = AppColors.OnSurface
                 )
             },
             confirmButton = {

@@ -61,6 +61,11 @@ class SmartPlanningActivity : ComponentActivity() {
         permissionRefreshKey++
     }
 
+    override fun onResume() {
+        super.onResume()
+        permissionRefreshKey++
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -180,7 +185,7 @@ fun SmartPlanningScreen(
             // Contenu selon l'onglet selectionne
             when (selectedTab) {
                 0 -> SchedulesTab(context)
-                1 -> FocusTab(context)
+                1 -> FocusTab(context, permissionRefreshKey)
                 2 -> PauseTab(context)
                 3 -> LocationTab(context, permissionRefreshKey, onRequestLocationPermission)
             }
@@ -654,7 +659,7 @@ fun DaySelector(
 // ==================== ONGLET FOCUS ====================
 
 @Composable
-fun FocusTab(context: Context) {
+fun FocusTab(context: Context, refreshKey: Int = 0) {
     var currentSession by remember { mutableStateOf(loadCurrentFocusSession(context)) }
     var showStartDialog by remember { mutableStateOf(false) }
     var remainingTime by remember { mutableStateOf(0) }
@@ -684,7 +689,7 @@ fun FocusTab(context: Context) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            FocusHeaderCard()
+            FocusHeaderCard(refreshKey)
         }
 
         if (currentSession?.isActive == true) {
@@ -753,9 +758,9 @@ fun FocusTab(context: Context) {
 }
 
 @Composable
-fun FocusHeaderCard() {
+fun FocusHeaderCard(refreshKey: Int = 0) {
     val context = LocalContext.current
-    val focusAppsCount = remember {
+    val focusAppsCount = remember(refreshKey) {
         val prefs = context.getSharedPreferences("app_blocker_settings", Context.MODE_PRIVATE)
         val apps = prefs.getStringSet("selected_apps_focus", null)
         if (apps == null) {
@@ -1384,7 +1389,7 @@ fun LocationTab(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            LocationHeaderCard()
+            LocationHeaderCard(permissionRefreshKey)
         }
 
         if (!hasPermission) {
@@ -1457,9 +1462,9 @@ fun LocationTab(
 }
 
 @Composable
-fun LocationHeaderCard() {
+fun LocationHeaderCard(refreshKey: Int = 0) {
     val context = LocalContext.current
-    val locationAppsCount = remember {
+    val locationAppsCount = remember(refreshKey) {
         val prefs = context.getSharedPreferences("app_blocker_settings", Context.MODE_PRIVATE)
         val apps = prefs.getStringSet("selected_apps_location", null)
         if (apps == null) {
@@ -1690,10 +1695,21 @@ fun AddLocationDialog(
                 Button(
                     onClick = {
                         isLoadingLocation = true
-                        getCurrentLocation(context) { lat, lon ->
-                            currentLocation = Pair(lat, lon)
-                            isLoadingLocation = false
-                        }
+                        getCurrentLocation(
+                            context = context,
+                            onLocation = { lat, lon ->
+                                currentLocation = Pair(lat, lon)
+                                isLoadingLocation = false
+                            },
+                            onError = {
+                                isLoadingLocation = false
+                                android.widget.Toast.makeText(
+                                    context,
+                                    "Impossible d'obtenir la position GPS",
+                                    android.widget.Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        )
                     },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !isLoadingLocation,
@@ -1934,41 +1950,88 @@ private fun hasLocationPermission(context: Context): Boolean {
     ) == PackageManager.PERMISSION_GRANTED
 }
 
-private fun getCurrentLocation(context: Context, onLocation: (Double, Double) -> Unit) {
+private fun getCurrentLocation(
+    context: Context,
+    onLocation: (Double, Double) -> Unit,
+    onError: () -> Unit = {}
+) {
     val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
+    // Vérification permission — feedback explicite en cas de refus
     if (ActivityCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION
         ) != PackageManager.PERMISSION_GRANTED
     ) {
+        android.util.Log.w("SmartPlanning", "Permission GPS manquante — annulation")
+        onError()
         return
     }
 
+    val handler = android.os.Handler(android.os.Looper.getMainLooper())
+    var resolved = false
+
     val listener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            onLocation(location.latitude, location.longitude)
+            if (resolved) return
+            resolved = true
+            handler.removeCallbacksAndMessages(null)
             locationManager.removeUpdates(this)
+            onLocation(location.latitude, location.longitude)
         }
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
     }
 
+    // Timeout : annule la demande GPS après 10 secondes
+    val timeoutRunnable = Runnable {
+        if (!resolved) {
+            resolved = true
+            locationManager.removeUpdates(listener)
+            android.util.Log.w("SmartPlanning", "Timeout GPS après 10s")
+            onError()
+        }
+    }
+
     try {
+        // Essayer d'abord la dernière position connue (GPS puis réseau)
+        val lastKnown = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+        if (lastKnown != null) {
+            resolved = true
+            onLocation(lastKnown.latitude, lastKnown.longitude)
+            return
+        }
+
+        // Pas de position cachée : demander une nouvelle position
         locationManager.requestLocationUpdates(
             LocationManager.GPS_PROVIDER,
-            0L,
-            0f,
-            listener
+            0L, 0f,
+            listener,
+            android.os.Looper.getMainLooper()
         )
 
-        // Fallback sur la derniere position connue
-        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let {
-            onLocation(it.latitude, it.longitude)
-            locationManager.removeUpdates(listener)
+        // Fallback réseau si GPS lent (permission COARSE suffisante)
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            locationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                0L, 0f,
+                listener,
+                android.os.Looper.getMainLooper()
+            )
         }
+
+        // Lancer le timer de timeout
+        handler.postDelayed(timeoutRunnable, 10_000L)
+
     } catch (e: Exception) {
-        // Gerer l'erreur
+        android.util.Log.e("SmartPlanning", "Erreur lors de la demande GPS", e)
+        onError()
     }
 }
 

@@ -1,6 +1,7 @@
 package com.focusguard.app
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
 import kotlinx.coroutines.launch
+
+enum class SortOption { DEFAULT, AZ, ZA, SELECTED_FIRST }
 
 class AppSettingsActivity : ComponentActivity() {
     private val prefs by lazy {
@@ -72,6 +75,12 @@ class AppSettingsActivity : ComponentActivity() {
         prefs.edit()
             .putStringSet(key, selectedApps)
             .apply()
+
+        // Notifier le service pour qu'il recharge immédiatement la liste d'apps
+        val refreshIntent = Intent(this, MonitorService::class.java).apply {
+            action = MonitorService.ACTION_REFRESH_BLOCKED_APPS
+        }
+        startService(refreshIntent)
     }
 
     private fun getSelectedApps(): Set<String> {
@@ -113,6 +122,8 @@ fun DarkAppSettingsScreen(
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf(AppCategory.ALL) }
     var showSystemApps by remember { mutableStateOf(false) }
+    var sortOption by remember { mutableStateOf(SortOption.DEFAULT) }
+    var showSortMenu by remember { mutableStateOf(false) }
 
     LaunchedEffect(showSystemApps) {
         isLoading = true
@@ -120,7 +131,7 @@ fun DarkAppSettingsScreen(
         isLoading = false
     }
 
-    val filteredApps = remember(allApps, searchQuery, selectedCategory) {
+    val filteredApps = remember(allApps, searchQuery, selectedCategory, sortOption, selectedApps) {
         var filtered = allApps
 
         if (selectedCategory != AppCategory.ALL) {
@@ -132,6 +143,13 @@ fun DarkAppSettingsScreen(
                 app.appName.contains(searchQuery, ignoreCase = true) ||
                         app.packageName.contains(searchQuery, ignoreCase = true)
             }
+        }
+
+        filtered = when (sortOption) {
+            SortOption.AZ -> filtered.sortedBy { it.appName.lowercase() }
+            SortOption.ZA -> filtered.sortedByDescending { it.appName.lowercase() }
+            SortOption.SELECTED_FIRST -> filtered.sortedByDescending { selectedApps.contains(it.packageName) }
+            SortOption.DEFAULT -> filtered
         }
 
         filtered
@@ -168,6 +186,36 @@ fun DarkAppSettingsScreen(
                     }
                 },
                 actions = {
+                    Box {
+                        IconButton(onClick = { showSortMenu = true }) {
+                            Icon(
+                                imageVector = Icons.Filled.List,
+                                contentDescription = stringResource(R.string.sort_label),
+                                tint = AppColors.Primary
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = showSortMenu,
+                            onDismissRequest = { showSortMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.sort_default), color = if (sortOption == SortOption.DEFAULT) AppColors.Primary else AppColors.OnSurface) },
+                                onClick = { sortOption = SortOption.DEFAULT; showSortMenu = false }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.sort_az), color = if (sortOption == SortOption.AZ) AppColors.Primary else AppColors.OnSurface) },
+                                onClick = { sortOption = SortOption.AZ; showSortMenu = false }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.sort_za), color = if (sortOption == SortOption.ZA) AppColors.Primary else AppColors.OnSurface) },
+                                onClick = { sortOption = SortOption.ZA; showSortMenu = false }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.sort_selected_first), color = if (sortOption == SortOption.SELECTED_FIRST) AppColors.Primary else AppColors.OnSurface) },
+                                onClick = { sortOption = SortOption.SELECTED_FIRST; showSortMenu = false }
+                            )
+                        }
+                    }
                     TextButton(onClick = { onSave(selectedApps) }) {
                         Text(
                             text = "Sauvegarder",
