@@ -285,7 +285,7 @@
     <string name="battery_optimization_action">Appuyer pour exempter FocusGuard</string>
     <string name="sort_az">A → Z</string>
     <string name="sort_za">Z → A</string>
-    <string name="sort_selected_first">Sélectionnées d'abord</string>
+    <string name="sort_selected_first">Sélectionnées d\'abord</string>
     <string name="sort_default">Par défaut</string>
     <string name="sort_label">Trier</string>
     <string name="no_proximity_sensor_fallback">Capteur absent — mode manuel activé</string>
