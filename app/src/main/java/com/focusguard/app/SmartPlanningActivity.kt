@@ -662,15 +662,26 @@ fun DaySelector(
 fun FocusTab(context: Context, refreshKey: Int = 0) {
     var currentSession by remember { mutableStateOf(loadCurrentFocusSession(context)) }
     var showStartDialog by remember { mutableStateOf(false) }
-    var remainingTime by remember { mutableStateOf(0) }
+    var remainingTime by remember {
+        mutableStateOf(
+            currentSession?.let { s ->
+                val elapsed = (System.currentTimeMillis() - s.startTime) / 1000
+                ((s.duration * 60) - elapsed).toInt().coerceAtLeast(0)
+            } ?: 0
+        )
+    }
 
     LaunchedEffect(currentSession) {
         if (currentSession?.isActive == true) {
+            // Recalculer le temps restant au lancement de l'effet (réouverture app)
+            val elapsed = (System.currentTimeMillis() - (currentSession?.startTime ?: 0)) / 1000
+            val total = (currentSession?.duration ?: 0) * 60
+            remainingTime = (total - elapsed).toInt().coerceAtLeast(0)
+
             while (remainingTime > 0) {
                 kotlinx.coroutines.delay(1000)
-                val elapsed = (System.currentTimeMillis() - (currentSession?.startTime ?: 0)) / 1000
-                val total = (currentSession?.duration ?: 0) * 60
-                remainingTime = (total - elapsed).toInt().coerceAtLeast(0)
+                val elapsedNow = (System.currentTimeMillis() - (currentSession?.startTime ?: 0)) / 1000
+                remainingTime = (total - elapsedNow).toInt().coerceAtLeast(0)
 
                 if (remainingTime == 0) {
                     endFocusSession(context)
