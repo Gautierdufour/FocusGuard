@@ -17,3 +17,33 @@ local.properties
 # Fichiers sensibles — ne jamais committer
 *.jks
 *.keystore
+
+# Claude Code (config outil interne)
+.claude/
+
+# Documentation interne / fichiers de chantier
+DIAGNOSTIC_ET_CORRECTION.md
+FIXES.md
+ETAT_PROJET.md
+FICHIERS_CREES.md
+GUIDE_ICONE_ET_APK.md
+GUIDE_ICONE_RAPIDE.txt
+GUIDE_INSTALLATION_CORRECTION.md
+GUIDE_RAPIDE.md
+ICONE_ET_APK_RESUME.md
+INDEX.md
+PLAN_ACTION.md
+RESUME_CORRECTIONS.md
+README_CORRECTION.md
+STRUCTURE_COMPLETE_APP.md
+DEMARRAGE.txt
+STATUS.txt
+play-store-listing.md
+
+# Scripts internes
+clean_all.bat
+compile.bat
+delete_duplicate.bat
+fix_statistics.bat
+generate_apk.bat
+fix_all.py
