@@ -1,356 +1,123 @@
-# 🛡️ Focus Guard - Bloquez vos distractions numériques
+# FocusGuard
 
-<div align="center">
+> Take back control of your screen time — reprenez le contrôle de votre temps d'écran.
 
-**Application Android de blocage d'applications avec défis physiques et mentaux**
-
-[![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://android.com)
-[![Kotlin](https://img.shields.io/badge/Language-Kotlin-purple.svg)](https://kotlinlang.org)
-[![Jetpack Compose](https://img.shields.io/badge/UI-Jetpack%20Compose-blue.svg)](https://developer.android.com/jetpack/compose)
-[![Status](https://img.shields.io/badge/Status-Ready%20to%20Compile-brightgreen.svg)](#)
-
-[📚 Documentation](#documentation) • [🚀 Démarrage Rapide](#démarrage-rapide) • [✨ Fonctionnalités](#fonctionnalités) • [🔧 Installation](#installation)
-
-</div>
+[![Android](https://img.shields.io/badge/Platform-Android%208.0%2B-green.svg)](https://android.com)
+[![Kotlin](https://img.shields.io/badge/Language-Kotlin-7F52FF.svg)](https://kotlinlang.org)
+[![Jetpack Compose](https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4.svg)](https://developer.android.com/jetpack/compose)
+[![Version](https://img.shields.io/badge/Version-1.0-brightgreen.svg)](#)
 
 ---
 
-## 📖 Description
+## What is FocusGuard?
 
-**Focus Guard** est une application Android innovante qui vous aide à reprendre le contrôle de votre temps d'écran en bloquant les applications qui vous distraient. Pour débloquer une application, vous devez relever un défi physique ou mental, transformant chaque tentative de distraction en opportunité de développement personnel.
+FocusGuard is an Android app that helps you break free from distracting apps. When you try to open a blocked app, FocusGuard intercepts it and asks you to complete a challenge first — turning every distraction attempt into a moment of effort or reflection.
 
-### 🎯 Pourquoi Focus Guard ?
-
-- 🚫 **Blocage intelligent** : Surveillez et bloquez automatiquement vos apps addictives
-- 💪 **Défis physiques** : Faites des pompes pour débloquer (détection automatique par capteur)
-- 🧠 **Défis mentaux** : Résolvez des calculs ou exercices de respiration
-- 📊 **Statistiques détaillées** : Suivez votre temps économisé et votre progression
-- 🏆 **Gamification** : Niveaux, badges, XP et streaks pour rester motivé
-- 🔄 **Service persistant** : Fonctionne en arrière-plan, redémarre automatiquement
+**Available on [Google Play](#)** *(coming soon)*
 
 ---
 
-## ✨ Fonctionnalités
+## Features
 
-### 🔒 Blocage d'Applications
-- Surveillance en temps réel des applications actives
-- Liste personnalisable d'applications à bloquer
-- Écran de verrouillage instantané
-- Service foreground persistant
+### App Blocking
+- Real-time foreground app detection
+- Customizable list of apps to block
+- Persistent background service with automatic restart after reboot
 
-### 💪 Types de Défis
+### Challenges
+Complete one of these to unlock a blocked app:
 
-| Défi | Description | Capteur |
-|------|-------------|---------|
-| **🏋️ Pompes** | Détection automatique par capteur de proximité | ✅ AUTO |
-| **🫁 Respiration** | Exercices de cohérence cardiaque guidés | - |
-| **🧮 Cognitif** | Calculs mentaux et défis logiques | - |
-| **⏱️ Attente** | Timer de réflexion obligatoire | - |
-| **✋ Manuel** | Déblocage par bouton | - |
+| Challenge | Description |
+|-----------|-------------|
+| **Pushups** | Automatic detection via proximity sensor |
+| **Breathing** | Guided cardiac coherence exercise |
+| **Cognitive** | Mental math, quiz, logic puzzles |
+| **Waiting** | Mandatory reflection timer |
 
-### 📊 Statistiques & Gamification
-- Nombre de blocages par application
-- Temps total économisé
-- Score d'addictivité par app
-- Graphiques d'activité hebdomadaire
-- Système de niveaux (1-50) et XP
-- 15+ badges à débloquer
-- Système de streaks quotidiens
+### Smart Planning
+- **Schedules** — block apps automatically on specific days/times
+- **Focus sessions** — timed deep-work sessions
+- **Location-based blocking** — block apps when you arrive at a specific place (work, school, etc.)
 
-### ⚙️ Paramètres Avancés
-- Planification intelligente (blocage selon lieu/heure)
-- Sélection des méthodes de défis
-- Personnalisation des seuils de détection
-- Gestion des notifications
+### Statistics & Gamification
+- Blocks count and time saved per app
+- Addiction score per application
+- XP system, levels (1–50), 15+ badges, daily streaks
+- Home screen widget
 
 ---
 
-## 🚀 Démarrage Rapide
+## Tech Stack
 
-### Prérequis
-- Android Studio Arctic Fox ou supérieur
+| Layer | Technology |
+|-------|-----------|
+| Language | Kotlin 1.9 |
+| UI | Jetpack Compose + Material 3 |
+| Architecture | MVVM + StateFlow |
+| Database | Room |
+| Background | Foreground Service + WorkManager |
+| Sensors | Proximity sensor (pushup detection) |
+
+---
+
+## Build
+
+### Requirements
+- Android Studio Hedgehog or later
 - Android SDK 26+ (Android 8.0+)
-- Appareil Android avec capteur de proximité (recommandé)
 
-### Compilation Rapide
-
-**Option 1 : Script Automatique** (Recommandé)
-```bash
-# Double-cliquer sur :
-compile.bat
-```
-
-**Option 2 : Ligne de Commande**
-```bash
-git clone <votre-repo>
-cd MyApplication2
-.\gradlew clean assembleDebug
-```
-
-**Option 3 : Android Studio**
-```
-File > Open > MyApplication2
-Build > Make Project (Ctrl+F9)
-```
-
-### 📱 Installation
-
-L'APK généré se trouve dans :
-```
-app/build/outputs/apk/debug/app-debug.apk
-```
-
-**Installation via ADB :**
-```bash
-adb install app/build/outputs/apk/debug/app-debug.apk
-```
-
----
-
-## 🔧 Configuration
-
-### Permissions Nécessaires
-
-#### ⚠️ OBLIGATOIRES
-1. **Usage des données d'utilisation**
-   - `Paramètres > Applications spéciales > Accès aux données d'utilisation`
-   - Activer Focus Guard
-
-2. **Affichage par-dessus d'autres applications**
-   - `Paramètres > Applications spéciales > Afficher par-dessus`
-   - Activer Focus Guard
-
-#### 📢 RECOMMANDÉES
-- **Notifications** : Pour le service en arrière-plan
-- **Désactiver optimisation batterie** : Pour persistance maximale
-
-#### 📍 OPTIONNELLES
-- **Localisation** : Si vous utilisez la planification intelligente
-
----
-
-## 📚 Documentation
-
-### Documents Principaux
-
-| Document | Description | Priorité |
-|----------|-------------|----------|
-| **[INDEX.md](INDEX.md)** | Guide complet de navigation | ⭐⭐⭐ |
-| **[RESUME_CORRECTIONS.md](RESUME_CORRECTIONS.md)** | Résumé des corrections appliquées | ⭐⭐⭐ |
-| **[PLAN_ACTION.md](PLAN_ACTION.md)** | Plan étape par étape | ⭐⭐⭐ |
-| **[GUIDE_RAPIDE.md](GUIDE_RAPIDE.md)** | Guide de démarrage | ⭐⭐ |
-| **[ETAT_PROJET.md](ETAT_PROJET.md)** | État complet du projet | ⭐⭐ |
-| **[DIAGNOSTIC_ET_CORRECTION.md](DIAGNOSTIC_ET_CORRECTION.md)** | Détails techniques | ⭐ |
-
-### 🗺️ Parcours Recommandé
-
-1. 📖 Lire [RESUME_CORRECTIONS.md](RESUME_CORRECTIONS.md) (2 min)
-2. 🔨 Suivre [PLAN_ACTION.md](PLAN_ACTION.md) (30 min)
-3. 📱 Consulter [GUIDE_RAPIDE.md](GUIDE_RAPIDE.md) si problèmes
-
----
-
-## 🏗️ Architecture
-
-### Technologies Utilisées
-- **Language** : Kotlin 1.9.22
-- **UI Framework** : Jetpack Compose
-- **Architecture** : MVVM + StateFlow
-- **Services** : Foreground Service + WorkManager
-- **Capteurs** : Proximity Sensor, Accelerometer
-- **Notifications** : Android NotificationManager
-- **Stockage** : SharedPreferences
-
-### Structure du Projet
-```
-app/src/main/java/com/example/myapplication/
-├── 📱 Activités
-│   ├── MainActivity.kt              # Écran principal
-│   ├── LockActivity.kt              # Écran de blocage
-│   ├── StatisticsActivity.kt        # Statistiques
-│   ├── SettingsActivity.kt          # Paramètres
-│   ├── AppSettingsActivity.kt       # Sélection des apps
-│   └── SmartPlanningActivity.kt     # Planification
-│
-├── 🔧 Services
-│   ├── MonitorService.kt            # Surveillance des apps
-│   └── ServiceWatchdogWorker.kt     # Relance automatique
-│
-├── 🎮 Détecteurs de Défis
-│   ├── PushupDetector.kt            # Détection pompes (proximité)
-│   ├── CognitiveChallenges.kt       # Défis cognitifs
-│   └── PushupMethodSelector.kt      # Sélection méthode
-│
-├── 📊 Managers
-│   ├── GamificationManager.kt       # Système XP/badges
-│   ├── PreferencesManager.kt        # Gestion préférences
-│   └── AppScanner.kt                # Scanner d'apps
-│
-├── 🎨 UI
-│   ├── AppColors.kt                 # Thème dark moderne
-│   └── ui/theme/                    # Thème Compose
-│
-└── 🔄 Receivers
-    └── BootReceiver.kt              # Redémarrage auto
-```
-
-### Fichiers Clés Corrigés ✅
-- **PushupDetector.kt** : Utilise capteur de proximité (au lieu d'accéléromètre)
-- **StatisticsActivity.kt** : Icônes et couleurs corrigées
-- **AndroidManifest.xml** : Toutes permissions déclarées
-- **build.gradle.kts** : Dépendances complètes
-
----
-
-## 🧪 Tests
-
-### Tests Essentiels
+### Steps
 
 ```bash
-# Test 1 : Scanner d'apps
-1. Lancer Focus Guard
-2. "Sélectionner les applications"
-3. Vérifier la liste d'apps
-
-# Test 2 : Blocage
-1. Sélectionner des apps
-2. Activer le blocage
-3. Lancer une app bloquée
-4. Vérifier l'écran de blocage
-
-# Test 3 : Pompes
-1. Choisir "Faire des pompes"
-2. Poser téléphone au sol
-3. Faire 5 pompes
-4. Vérifier le compteur
-
-# Test 4 : Persistance
-1. Redémarrer le téléphone
-2. Vérifier que le service est actif
-3. Tester le blocage
+git clone https://github.com/Gautierdufour/FocusGuard.git
+cd FocusGuard
+./gradlew assembleDebug
 ```
 
-### Commandes de Debug
+The APK will be at `app/build/outputs/apk/debug/app-debug.apk`.
 
-```bash
-# Logs en temps réel
-adb logcat | findstr "myapplication"
+### Release build
 
-# Logs détecteur de pompes
-adb logcat | findstr "PushupDetector"
+Configure `local.properties` with your keystore credentials:
 
-# Logs service de monitoring
-adb logcat | findstr "MonitorService"
-
-# Réinstaller l'app
-adb uninstall com.example.myapplication
-adb install app/build/outputs/apk/debug/app-debug.apk
+```properties
+KEYSTORE_PATH=/path/to/your.jks
+KEYSTORE_PASS=your_store_password
+KEY_ALIAS=your_key_alias
+KEY_PASS=your_key_password
 ```
 
----
-
-## 🐛 Résolution de Problèmes
-
-### Le blocage ne fonctionne pas
-**Solution :** Vérifier les permissions "Usage des données" et "Affichage par-dessus"
-
-### Le détecteur de pompes ne répond pas
-**Solutions :**
-1. Nettoyer le capteur de proximité
-2. Vérifier les logs : `adb logcat | findstr "PushupDetector"`
-3. Essayer le mode HYBRID
-
-### L'app ne redémarre pas après reboot
-**Solution :** Désactiver l'optimisation de batterie pour Focus Guard
-
-### Erreur de compilation
-**Solutions :**
-```bash
-.\gradlew clean
-File > Invalidate Caches > Invalidate and Restart (Android Studio)
-```
-
-Pour plus de détails : [PLAN_ACTION.md - Section Problèmes](PLAN_ACTION.md)
+Then: `./gradlew bundleRelease`
 
 ---
 
-## 📈 Roadmap
+## Permissions
 
-### ✅ Version 1.0 (Actuelle)
-- [x] Blocage d'applications
-- [x] Défis variés (pompes, respiration, cognitif)
-- [x] Statistiques détaillées
-- [x] Gamification complète
-- [x] Service persistant
+| Permission | Purpose |
+|-----------|---------|
+| `PACKAGE_USAGE_STATS` | Detect which app is in the foreground |
+| `QUERY_ALL_PACKAGES` | List installed apps to block |
+| `SYSTEM_ALERT_WINDOW` | Display blocking overlay above other apps |
+| `ACCESS_FINE_LOCATION` | Location-based blocking (optional feature) |
 
-### 🔮 Version 1.1 (Planifiée)
-- [ ] Support multi-langues
-- [ ] Thème clair
-- [ ] Export des statistiques
-- [ ] Synchronisation cloud
-- [ ] Défis personnalisés
-
-### 🚀 Version 2.0 (Future)
-- [ ] Mode famille/groupe
-- [ ] IA adaptative
-- [ ] Intégration wearables
-- [ ] Communauté & challenges
+All data is processed **on-device only**. Nothing is transmitted externally.
 
 ---
 
-## 🤝 Contribution
+## Privacy
 
-Les contributions sont les bienvenues ! 
+FocusGuard collects no personal data and uses no third-party analytics or crash-reporting SDK.
 
-### Comment contribuer :
-1. Fork le projet
-2. Créer une branche (`git checkout -b feature/AmazingFeature`)
-3. Commit les changements (`git commit -m 'Add AmazingFeature'`)
-4. Push sur la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une Pull Request
-
-### Guidelines :
-- Suivre le style Kotlin existant
-- Commenter les fonctions complexes
-- Tester sur plusieurs appareils
-- Mettre à jour la documentation
+Full privacy policy: [gautierdufour.github.io/FocusGuard/privacy-policy.html](https://gautierdufour.github.io/FocusGuard/privacy-policy.html)
 
 ---
 
-## 📄 Licence
+## License
 
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
----
-
-## 👥 Auteurs
-
-- **Gautier** - *Développeur principal* - [@gauti](https://github.com/gauti)
+This project is licensed under the MIT License.
 
 ---
 
-## 🙏 Remerciements
+## Contact
 
-- Jetpack Compose team pour l'excellent framework UI
-- La communauté Android pour les ressources et tutoriels
-- Tous les contributeurs qui ont aidé à améliorer ce projet
-
----
-
-## 📞 Support
-
-- 📧 Email : [support@focusguard.app](mailto:support@focusguard.app)
-- 🐛 Issues : [GitHub Issues](https://github.com/votre-repo/issues)
-- 📚 Documentation : [INDEX.md](INDEX.md)
-
----
-
-<div align="center">
-
-**Fait avec ❤️ pour vous aider à reprendre le contrôle de votre temps**
-
-⭐ Si ce projet vous aide, n'hésitez pas à lui donner une étoile !
-
-[⬆ Retour en haut](#-focus-guard---bloquez-vos-distractions-numériques)
-
-</div>
+Questions or feedback: [contact@focusguard.app](mailto:contact@focusguard.app)
