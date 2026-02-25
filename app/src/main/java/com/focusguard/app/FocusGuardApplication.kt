@@ -5,8 +5,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.focusguard.app.workers.DailyReportWorker
-import com.google.firebase.FirebaseApp
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
@@ -14,11 +12,6 @@ class FocusGuardApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        FirebaseApp.initializeApp(this)
-
-        // Active Crashlytics en release, désactive en debug pour ne pas polluer les rapports
-        FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = !BuildConfig.DEBUG
 
         scheduleDailyReport()
     }
