@@ -11,7 +11,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.focusguard.app"
+        applicationId = "com.focusguardapp.android"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
